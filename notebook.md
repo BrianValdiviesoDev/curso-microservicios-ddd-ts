@@ -31,18 +31,82 @@ Añadimos ts-node para la ejecución sin compilación
 npm i -D ts-node
 ```
 
+
+__Dockerfile__\
+Para el Dockerfile seguimos los mismos pasos. Copiamos los ficheros fuente y el de configuración de TS, compilamos y después ejecutamos el compilado.
+
+__Docker compose__\
+Para simplificar la dockerización montamos un compose para tener configuradas las variables de entorno, el mapeo de puertos y los volumenes.
+
+__Dependencias__
+- `express`: framework de trabajo.
+- `cors`: middleware de express para gestión de CORS.
+- `morgan`: middleware para monitorizar las peticiones http.
+- `winston`: paquete para gestionar los logs.
+- `nodemon`: paquete para poner express en watch mode.
+
+```bash
+npm i express cors morgan winston
+npm i -D nodemon @types/express @types/cors @types/morgan @types/winston
+``` 
+
+__Linter__\
+Como linter vamos a utilizar ESlint con los complementos de TS.
+```bash
+npm i -D eslint @typescript-eslint/parser @typescript-eslint/eslint-plugin
+```
+Tras instalar las dependencias vamos a iniciar el linter.
+```bash
+npx eslint --init
+```
+Ahora nos saldrá un asistente por consola con algunas preguntas sobre nuestro proyecto. Cuando finalice nos generará el fichero `eslint.config.mjs` donde se configuran las reglas del linter. En nuestro caso añadiremos este json:
+```json
+{
+    rules: {
+        indent: [
+            'error',
+            'tab'
+        ],
+        'linebreak-style': [
+            'error',
+            'unix'
+        ],
+        quotes: [
+            'error',
+            'single'
+        ],
+        semi: [
+            'error',
+            'always'
+        ],
+        eqeqeq: 'off',
+        'no-unused-vars': 'error',
+        'prefer-const': ['error', { ignoreReadBeforeAssign: true }],
+    }
+},
+```
+__Documentación__\
+Para documentar el proyecto vamos a utilizar el standard OpenApi y como visualizador Swagger.
+```bash
+npm i swagger-ui-express swagger-jsdoc
+npm install -D @types/swagger-ui-express
+```
+Todas las especificaciones irán en el fichero `/src/framework/swagger.json`
+
+
 __Scripts npm__\
 Añadimos estos scripts al package.json
 ```json
 "scripts": {
-    "dev": "ts-node src/index.ts",
+    "dev": "nodemon src/index.ts",
     "build": "tsc",
-    "start": "node dist/index.js"
+    "start": "node dist/index.js",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix"
 },
 ```
 `dev`: Ejecuta nuestro punto de entrada del proyecto sin transpilación previa.\
 `build`: Transpila nuestro proyecto siguiendo las especifcaciones del fichero tsconfig.json.\
 `start`: Ejecuta nuestro proyecto transpilado a js.
-
-__Dockerfile__\
-Para el Dockerfile seguimos los mismos pasos. Copiamos los ficheros fuente y el de configuración de TS, compilamos y después ejecutamos el compilado.
+`lint`: Ejecuta la comprobación del linter.
+`lint:fix`: Ejecuta el fix del linter para formatear el código.

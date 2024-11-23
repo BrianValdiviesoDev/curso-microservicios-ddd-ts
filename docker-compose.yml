@@ -1,0 +1,26 @@
+version: '3'
+
+services:
+  api:
+    build:
+      context: ./
+      dockerfile: Dockerfile
+    ports:
+      - "4000:3000"
+    environment:
+      - PORT=3000
+      - NODE_ENV=prod
+    networks:
+      - curso-ddd
+    volumes:
+      - type: volume
+        source: api_logs
+        target: /app/logs
+    
+networks:
+  curso-ddd:
+    driver: bridge
+
+volumes:
+  api_logs:
+    name: api_logs  

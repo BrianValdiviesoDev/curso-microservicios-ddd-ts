@@ -1,5 +1,5 @@
-const show = (text:string) => {
-    console.log(text)
-}
+import { app } from './server';
+const PORT = process.env.PORT || 3000;
 
-show("Testing TS")
+const server = app.listen(PORT, () => console.log(`Listen on port: ${PORT}`));
+export { app, server };

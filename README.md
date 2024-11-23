@@ -39,6 +39,12 @@ Run container
 ```bash
 docker run -rm -d family-planner
 ```
+
+### Run with docker compose
+```bash
+docker compose up -d
+```
+
 ## Scripts
 Run project in development mode. It runs without compiling.
 ```bash
@@ -54,6 +60,29 @@ Run compiled project from dist/
 ```bash
 npm run start
 ```
+
+Check linter
+```bash
+npm run lint
+```
+
+Fix styles with linter
+```bash
+npm run lint:fix
+```
+
+## Environment variables
+- `PORT`: port that server will be listening.
+- `NODE_ENV`: environment (dev | prod)
+
+## URLs
+Health check -> [http://localhost:3000/monit/health](http://localhost:3000/monit/health)\
+Swagger -> [http://localhost:3000/api-docs](http://localhost:3000/api-docs)
+
 ## Changelog
 
+### 0.2 - Express framework
+Add a complete framework setup.
+
 ### 0.1 - Testing TS project
+A simple project that runs a TS file with a console log.
