@@ -1,0 +1,27 @@
+{
+  "name": "curso-microservicios-ddd-ts",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "dev": "ts-node src/index.ts",
+    "build": "tsc",
+    "start": "node dist/index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/BrianValdiviesoDev/curso-microservicios-ddd-ts.git"
+  },
+  "keywords": [],
+  "author": "Brian Valdivieso",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/BrianValdiviesoDev/curso-microservicios-ddd-ts/issues"
+  },
+  "homepage": "https://github.com/BrianValdiviesoDev/curso-microservicios-ddd-ts#readme",
+  "devDependencies": {
+    "@types/node": "^22.9.1",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.6.3"
+  }
+}
