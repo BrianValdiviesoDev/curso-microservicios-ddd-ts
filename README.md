@@ -97,6 +97,9 @@ Swagger -> [http://localhost:3000/api-docs](http://localhost:3000/api-docs)
 
 ## Changelog
 
+### 1.0 - First version
+Add first features for the project.
+
 ### 0.2 - Express framework
 Add a complete framework setup.
 
