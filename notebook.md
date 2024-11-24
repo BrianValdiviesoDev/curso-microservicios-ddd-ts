@@ -44,9 +44,10 @@ __Dependencias__
 - `morgan`: middleware para monitorizar las peticiones http.
 - `winston`: paquete para gestionar los logs.
 - `nodemon`: paquete para poner express en watch mode.
+- `dotenv`: paquete para cargar variables de entorno desde ficheros.
 
 ```bash
-npm i express cors morgan winston
+npm i express cors morgan winston dotenv
 npm i -D nodemon @types/express @types/cors @types/morgan @types/winston
 ``` 
 

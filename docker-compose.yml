@@ -10,17 +10,39 @@ services:
     environment:
       - PORT=3000
       - NODE_ENV=prod
+      - DB_URI=mongodb://mongo:27017/family-planner
     networks:
       - curso-ddd
     volumes:
       - type: volume
         source: api_logs
         target: /app/logs
-    
+  
+  mongo:
+    image: mongo:4.4.6
+    restart: always
+    ports:
+      - "27017:27017"
+    environment:
+      - MONGO_DB_NAME=family-planner
+    networks:
+      - curso-ddd
+    volumes:
+      - type: volume
+        source: MONGO_DATA
+        target: /data/db
+      - type: volume
+        source: MONGO_CONFIG
+        target: /data/configdb
+
 networks:
   curso-ddd:
     driver: bridge
 
 volumes:
   api_logs:
-    name: api_logs  
+    name: api_logs 
+  MONGO_DATA:
+    name: mongo_data
+  MONGO_CONFIG:
+    name: mongo_config 

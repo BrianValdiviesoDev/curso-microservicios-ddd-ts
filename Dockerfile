@@ -13,6 +13,9 @@ RUN npm install
 # Copia los archivos del proyecto
 COPY src ./src
 
+# Copia el fichero de OpenApi
+COPY src/framework/swagger.json dist/framework/
+
 # Copia el archivo de configuración
 COPY tsconfig.json ./
 

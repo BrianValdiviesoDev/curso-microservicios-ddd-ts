@@ -74,6 +74,7 @@ npm run lint:fix
 ## Environment variables
 - `PORT`: port that server will be listening.
 - `NODE_ENV`: environment (dev | prod)
+- `DB_URI`: uri to your database. I.E: mongodb://localhost:27017/database
 
 ## URLs
 Health check -> [http://localhost:3000/monit/health](http://localhost:3000/monit/health)\
