@@ -107,7 +107,25 @@ const getFamily = async (req: Request, res: Response, next: NextFunction) => {
 	}    
 };
 
-
+const addFamilyVehicle = async (req: Request, res: Response, next: NextFunction) => {
+	try {
+		const familyService = new FamilyService();
+		const vehicleId = req.body.vehicleId;
+		if (!vehicleId) {
+			throw new BadRequestError('vehicleId is required');
+		}
+		const updated = await familyService.addVehicle(
+			req.params.id,
+			new Types.ObjectId(vehicleId as string)
+		);
+		if (!updated) {
+			throw new NotFoundError('Family not found');
+		}
+		res.status(200).send(updated);
+	} catch (e) {
+		next(e);
+	}
+};
 
 export {
 	createFamily,
@@ -116,4 +134,5 @@ export {
 	deleteFamily,
 	listFamilies,
 	getFamily,
+	addFamilyVehicle
 };

@@ -14,6 +14,12 @@ const FamilySchema = new Schema<FamilyDocument>(
 				required: true,
 			},
 		],
+		vehicles: [
+			{
+				type: Types.ObjectId,
+				ref: 'Vehicle', // Referencia al modelo Vehicle
+			},
+		],
 	},
 	{
 		versionKey: false,

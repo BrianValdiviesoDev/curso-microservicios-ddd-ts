@@ -14,7 +14,7 @@ export class FamilyService {
 	async updateName(
 		_id: string,
 		name:string
-	  ): Promise<FamilyDocument | null> { // No debe haber comas erróneas o espacios mal colocados
+	  ): Promise<FamilyDocument | null> {
 		const updated = await FamilyModel.findByIdAndUpdate(
 		  new Types.ObjectId(_id),
 			{ $set: { name } },
@@ -42,5 +42,13 @@ export class FamilyService {
 
 	async getFamily(_id: string): Promise<FamilyDocument | null> {
 		return await FamilyModel.findById(new Types.ObjectId(_id)).populate('members');
+	}
+
+	async addVehicle(_id: string, vehicleId: Types.ObjectId): Promise<FamilyDocument | null>{
+		return await FamilyModel.findByIdAndUpdate(
+			new Types.ObjectId(_id),
+			{ $push: { vehicles: vehicleId } },
+		  { new: true}
+		);
 	}
 }
