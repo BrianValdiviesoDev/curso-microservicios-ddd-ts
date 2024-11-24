@@ -3,6 +3,7 @@ import { Request, Response } from 'express';
 import expressConfig from './framework/express';
 import { errorHandler } from './framework/middlewares/errorHandler';
 import userRouter from './routes/user.routes';
+import familyRouter from './routes/family.routes';
 
 const app = express();
 expressConfig(app);
@@ -16,6 +17,7 @@ app.get('/monit/health', (req: Request, res: Response) => {
 
 
 app.use('/users', userRouter);
+app.use('/families', familyRouter);
 
 app.use(errorHandler);
 
