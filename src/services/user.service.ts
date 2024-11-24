@@ -10,15 +10,16 @@ export class UserService {
 
 	async updateUser(
 		_id: string,
-		user: User,
-	): Promise<UserDocument | null> {
+		user: Partial<User>
+	  ): Promise<UserDocument | null> { // No debe haber comas erróneas o espacios mal colocados
 		const updatedUser = await UserModel.findByIdAndUpdate(
-			new Types.ObjectId(_id),
-			{ ...user },
-			{ new: true }
+		  new Types.ObjectId(_id),
+		  { $set: user },
+		  { new: true}
 		);
+	  
 		return updatedUser;
-	}
+	  }
 
 	async deleteUser(_id: string): Promise<DeleteResult> {
 		return await UserModel.deleteOne({ _id: new Types.ObjectId(_id) });

@@ -71,6 +71,21 @@ Fix styles with linter
 npm run lint:fix
 ```
 
+Run all tests
+```bash
+npm run test
+```
+
+Run all tests in watch mode
+```bash
+npm run test:watch
+```
+
+Run a coverage tests and generate a report in html-report/report.html
+```bash
+npm run test:cov
+```
+
 ## Environment variables
 - `PORT`: port that server will be listening.
 - `NODE_ENV`: environment (dev | prod)

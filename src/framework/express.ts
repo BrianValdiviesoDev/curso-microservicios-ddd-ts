@@ -4,7 +4,8 @@ import cors from 'cors';
 import morgan from 'morgan';
 import logger from './logger';
 import swaggerUi from 'swagger-ui-express';
-const saggerDoc = require('./swagger.json')
+// eslint-disable-next-line @typescript-eslint/no-require-imports
+const saggerDoc = require('./swagger.json');
 
 export default function expressConfig(app: Express) {
 	const corsOptions = {

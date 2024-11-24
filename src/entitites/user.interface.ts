@@ -1,4 +1,4 @@
-import { Document } from 'mongoose';
+import { Document, Types } from 'mongoose';
 
 export interface User{
     name: string;
@@ -6,4 +6,6 @@ export interface User{
     birth_date: Date;
 }
   
-export interface UserDocument extends User, Document {}
+export interface UserDocument extends User, Document {
+    _id: Types.ObjectId;
+}

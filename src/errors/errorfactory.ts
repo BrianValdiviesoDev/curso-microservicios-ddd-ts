@@ -9,7 +9,13 @@ export class AppError extends Error {
 }
 
 export class NotFoundError extends AppError {
-	constructor(message: string = "Not found") {
-		super(message, 404)
+	constructor(message: string = 'Not found') {
+		super(message, 404);
+	}
+}
+
+export class BadRequestError extends AppError {
+	constructor(message: string = 'Bad Request') {
+		super(message, 400);
 	}
 }
