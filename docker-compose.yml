@@ -11,6 +11,7 @@ services:
       - PORT=3000
       - NODE_ENV=prod
       - DB_URI=mongodb://mongo:27017/family-planner
+      - LOKI_URL=http://loki:3100
     networks:
       - curso-ddd
     volumes:
@@ -35,6 +36,37 @@ services:
         source: MONGO_CONFIG
         target: /data/configdb
 
+  loki:
+    image: grafana/loki:latest
+    ports:
+      - "3100:3100"
+    volumes:
+      - ./loki-config.yml:/etc/loki/loki-config.yaml
+      - ./data/loki/index:/loki/index
+      - ./data/loki/chunks:/loki/chunks
+      - ./data/loki/boltdb-cache:/loki/boltdb-cache
+    command: -config.file=/etc/loki/loki-config.yaml -config.expand-env=true
+    networks:
+      - curso-ddd
+  
+  prometheus:
+    image: prom/prometheus:v2.46.0
+    ports:
+      - 9090:9090
+    volumes:
+      - ./prometheus.yml:/etc/prometheus/prometheus.yml
+    networks:
+      - curso-ddd
+  
+  grafana:
+    image: grafana/grafana:latest
+    ports:
+      - "3000:3000"
+    networks:
+      - curso-ddd
+
+
+
 networks:
   curso-ddd:
     driver: bridge
@@ -46,3 +78,5 @@ volumes:
     name: mongo_data
   MONGO_CONFIG:
     name: mongo_config 
+  grafana-data:
+    name: grafana-data

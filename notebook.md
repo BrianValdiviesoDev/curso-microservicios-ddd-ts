@@ -135,3 +135,25 @@ Añadimos estos scripts al package.json
 `test`: Lanza todos los tests.
 `test:watch`: Lanza todos los tests en watch mode.
 `test:cov`: Lanza un coverage y genera un reporte en `html-report/report.html` 
+
+## 3. Observabilidad
+El stack que vamos a utilizar para la observabilidad es:
+- `Loki`: se encarga de recopilar los logs generados.  
+- `Prometheus`: recolecta y almacena métricas.
+- `Grafana`: visualiza tanto las métricas de Prometheus como los logs de Loki en dashboards centralizados.
+
+Primero debemos instalar la librería que nos servirá para enviar los logs desde nuestro servicio a Loki utilizando Winston
+```bash
+npm i winston-loki
+```
+Y actualizaremos nuestro logger para que winston también envie los logs a Loki.
+
+Necesitaremos también en la raíz de nuestro proyecto estos ficheros:
+- `loki-config.yml`
+- `prometheus.yml`
+
+Y por último añadiremos este stack a nuestro docker compose.\
+Una vez tengamos todo esto vamos a acceder a Grafana y haremos la siguiente configuración.
+- Accedemos a Grafana en [http://localhost:3000](http://localhost:3000) con user `admin` y pass `admin`.
+- Añadir Prometheus: añadimos Prometheus como fuente de datos apuntando al host `http://host.docker.internal:9090/`
+- Añadir Loki: añadimos Loki como fuente de datos apuntando al host `http://host.docker.internal:3100/`

@@ -90,7 +90,7 @@ npm run test:cov
 - `PORT`: port that server will be listening.
 - `NODE_ENV`: environment (dev | prod)
 - `DB_URI`: uri to your database. I.E: mongodb://localhost:27017/database
-
+- `LOKI_URL`: url to connecto with Loki.
 ## URLs
 Health check -> [http://localhost:3000/monit/health](http://localhost:3000/monit/health)\
 Swagger -> [http://localhost:3000/api-docs](http://localhost:3000/api-docs)
