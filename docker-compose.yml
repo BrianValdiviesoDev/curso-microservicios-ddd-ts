@@ -1,9 +1,9 @@
 version: '3'
 
 services:
-  api:
+  monolito:
     build:
-      context: ./
+      context: monolito/
       dockerfile: Dockerfile
     ports:
       - "4000:3000"
@@ -11,6 +11,23 @@ services:
       - PORT=3000
       - NODE_ENV=prod
       - DB_URI=mongodb://mongo:27017/family-planner
+    networks:
+      - curso-ddd
+    volumes:
+      - type: volume
+        source: api_logs
+        target: /app/logs
+    
+  users:
+    build:
+      context: users/
+      dockerfile: Dockerfile
+    ports:
+      - "4001:3000"
+    environment:
+      - PORT=3000
+      - NODE_ENV=prod
+      - DB_URI=mongodb://mongo:27017/users
     networks:
       - curso-ddd
     volumes:
