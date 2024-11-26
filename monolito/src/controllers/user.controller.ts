@@ -1,19 +1,28 @@
 import { NextFunction, Request, Response } from 'express';
 import { UserService } from '../services/user.service';
-import { BadRequestError, NotFoundError } from '../errors/errorfactory';
-
+import { NotFoundError } from '../errors/errorfactory';
+import logger from '../framework/logger';
 
 const createUser = async (req: Request, res: Response, next: NextFunction) => {
 	try {
-		if (!req.body.email || !req.body.name) {
-			throw new BadRequestError('Name and email are required');
+		const userMicroUrl = process.env.USERS_MICRO;
+		const uri = `${userMicroUrl}/`;
+		const response = await fetch(uri, {
+			headers: {
+				'Content-Type': 'application/json',
+			  },
+			method: 'POST',
+			body: JSON.stringify(req.body),
+		});
+		if (response.status == 201) {
+			const json = await response.json();
+			res.status(201).send(json);
+			return;
 		}
-		const userService = new UserService();
-		const newUser = await userService.createUser(req.body);
-		if (!newUser) {
-			throw new Error('Error creating user');
-		}
-		res.status(201).send(newUser);
+		logger.error(`users-micro response ${response.status}`);
+		const text = await response.text();
+		res.status(response.status).send(text);	
+		return;
 	} catch (e) {
 		next(e);
 	}

@@ -19,6 +19,9 @@ COPY src/framework/swagger.json dist/framework/
 # Copia el archivo de configuración
 COPY tsconfig.json ./
 
+# Copia el archivo de configuración de Jest
+COPY jest.config.json ./
+
 
 # Transpila el código TypeScript a JavaScript
 RUN npm run build

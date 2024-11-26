@@ -14,7 +14,7 @@ app.get('/monit/health', (req: Request, res: Response) => {
 	res.send('Healthy');
 });
 
-app.use('/users', UserRouter);
+app.use('/', UserRouter);
 
 app.use(errorHandler);
 

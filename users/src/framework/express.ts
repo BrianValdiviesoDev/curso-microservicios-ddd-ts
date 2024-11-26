@@ -11,6 +11,7 @@ export default function expressConfig(app: Express) {
 	const corsOptions = {
 		methods: ['GET', 'POST', 'PUT', 'DELETE'],
 		allowedHeaders: ['Content-Type', 'Authorization'],
+		origin:['*']
 	};
 	app.use(cors(corsOptions));
 
