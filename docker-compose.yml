@@ -11,7 +11,7 @@ services:
       - PORT=3000
       - NODE_ENV=prod
       - DB_URI=mongodb://mongo:27017/family-planner
-      - USERS_MICRO=http://micro-users:4001
+      - USERS_MICRO=http://micro-users:3001
     networks:
       - curso-ddd
     volumes:
