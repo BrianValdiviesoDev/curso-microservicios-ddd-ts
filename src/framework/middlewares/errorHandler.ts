@@ -1,11 +1,13 @@
 import { Request, Response } from 'express';
 import logger from '../logger';
 import { AppError } from '../../errors/errorfactory';
+import { NextFunction } from 'connect';
 
 export const errorHandler = (
 	err: Error,
 	req: Request,
 	res: Response,
+	next:NextFunction,
 ) => {
 	logger.error(`${err.message} - ${req.method} ${req.originalUrl}`);
 	logger.debug(err.stack);
