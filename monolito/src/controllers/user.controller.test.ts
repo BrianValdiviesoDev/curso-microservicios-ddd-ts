@@ -2,7 +2,6 @@ import request from 'supertest';
 import { app } from '../server';
 import { MongoMemoryServer } from 'mongodb-memory-server';
 import mongoose, { Types } from 'mongoose';
-import UserModel from '../entitites/user.schema';
 
 let mongoServer: MongoMemoryServer;
 
@@ -54,7 +53,6 @@ describe('POST /users/', () => {
 	});
 
 	afterEach(async () => {
-		await UserModel.deleteMany({});
 		await jest.clearAllMocks();
 	});
 
@@ -79,104 +77,206 @@ describe('POST /users/', () => {
 });
 
 describe('PUT /users/:id', () => {
+	beforeAll(async () => {
+		global.fetch = jest.fn().mockImplementation((url, options) => {
+			if (!url.includes(process.env.USERS_MICRO)) {
+				console.error('USERS_MICRO is not set as environment variable');
+			  return Promise.resolve({
+					status: 404,
+					text: jest.fn().mockResolvedValue('Not Found'),
+			  });
+			}
+			// Validar campos obligatorios
+			const body = JSON.parse(options?.body || '{}');
+			if (url.includes('/404')) {
+			  return Promise.resolve({
+					status: 404,
+					text: jest.fn().mockResolvedValue('User not found'),
+			  });
+			}
+		  
+			// Simular una respuesta exitosa si todo está bien
+			return Promise.resolve({
+			  status: 200,
+			  json: jest.fn().mockResolvedValue({
+					id: new Types.ObjectId(),
+					name: body.user.name,
+					email: body.user.email,
+			  }),
+			});
+		});
+	});
+	
+	afterAll(async () => {
+		await jest.resetAllMocks();
+		await jest.restoreAllMocks();
+	});
+
 	afterEach(async () => {
-		await UserModel.deleteMany({});
+		await jest.clearAllMocks();
 	});
 
 	it('updates my user', async () => {
-		const existing = await UserModel.create({
-			name: 'testuser',
-			email: 'test@test.com',
-			birth_date: new Date()
-		});
 		const user = {
 			name: 'my new name',
 		};
 		const res = await request(app)
-			.put(`/users/${existing._id}`)
+			.put('/users/test')
 			.send({user});
 		expect(res.statusCode).toEqual(200);
 		expect(res.body.name).toBe(user.name);
 	});
 
+	it('fail updating if user not exists', async () => {
+		const user = {
+			name: 'my new name',
+		};
+		const res = await request(app)
+			.put('/users/404')
+			.send({user});
+		expect(res.statusCode).toEqual(404);
+	});
+
 });
 
 describe('DELETE /users/:id', () => {
+	beforeAll(async () => {
+		global.fetch = jest.fn().mockImplementation((url, options) => {
+			if (!url.includes(process.env.USERS_MICRO)) {
+				console.error('USERS_MICRO is not set as environment variable');
+			  return Promise.resolve({
+					status: 404,
+					text: jest.fn().mockResolvedValue('Not Found'),
+			  });
+			}
+			const body = JSON.parse(options?.body || '{}');
+			if (url.includes('/404')) {
+			  return Promise.resolve({
+					status: 404,
+					text: jest.fn().mockResolvedValue('User not found'),
+			  });
+			}
+		  
+			return Promise.resolve({
+			  status: 200,
+			  json: jest.fn().mockResolvedValue({
+					id: new Types.ObjectId(),
+					name: body.name,
+					email: body.email,
+			  }),
+			});
+		});
+	});
+	
+	afterAll(async () => {
+		await jest.resetAllMocks();
+		await jest.restoreAllMocks();
+	});
+
 	afterEach(async () => {
-		await UserModel.deleteMany({});
+		await jest.clearAllMocks();
 	});
 
 	it('deletes a user', async () => {
-		const user = await UserModel.create({
-			name: 'testuser',
-			email: 'test@test.com',
-			birth_date: new Date()
-		});
 		const res = await request(app)
-			.delete(`/users/${user._id}`);
+			.delete('/users/test');
 
 		expect(res.statusCode).toEqual(200);
 	});
 
 	it('fail deleting a user if not exists', async () => {
 		const res = await request(app)
-			.delete(`/users/${new Types.ObjectId()}`);
+			.delete('/users/404');
 
 		expect(res.statusCode).toEqual(404);
 	});
 });
 
 describe('GET /users/', () => {
+	beforeAll(async () => {
+		global.fetch = jest.fn().mockImplementation((url) => {
+			if (!url.includes(process.env.USERS_MICRO)) {
+				console.error('USERS_MICRO is not set as environment variable');
+			  return Promise.resolve({
+					status: 404,
+					text: jest.fn().mockResolvedValue('Not Found'),
+			  });
+			}
+			return Promise.resolve({
+			  status: 200,
+			  json: jest.fn().mockResolvedValue({
+					id: new Types.ObjectId(),
+					name: 'test',
+					email: 'test',
+			  }),
+			});
+		});
+	});
+	
+	afterAll(async () => {
+		await jest.resetAllMocks();
+		await jest.restoreAllMocks();
+	});
+
 	afterEach(async () => {
-		await UserModel.deleteMany({});
+		await jest.clearAllMocks();
 	});
 
 	it('returns a complete list of users', async () => {
-		await UserModel.insertMany([
-			{
-				name: 'testuser',
-				email: 'test@test.com',
-				birth_date: new Date()
-			},
-			{
-				name: 'testuser2',
-				email: 'test2@test.com',
-				birth_date: new Date()
-			},
-			{
-				name: 'testuser3',
-				email: 'test3@test.com',
-				birth_date: new Date()
-			}
-		]);
+
 		const res = await request(app)
 			.get('/users/');
 		expect(res.statusCode).toEqual(200);
-
-		const list = await UserModel.find({});
-		expect(res.body.length).toBe(list.length);
 	});
 });
 
 describe('GET /users/:id', () => {
+	beforeAll(async () => {
+		global.fetch = jest.fn().mockImplementation((url, options) => {
+			if (!url.includes(process.env.USERS_MICRO)) {
+				console.error('USERS_MICRO is not set as environment variable');
+			  return Promise.resolve({
+					status: 404,
+					text: jest.fn().mockResolvedValue('Not Found'),
+			  });
+			}
+			const body = JSON.parse(options?.body || '{}');
+			if (url.includes('/404')) {
+			  return Promise.resolve({
+					status: 404,
+					text: jest.fn().mockResolvedValue('User not found'),
+			  });
+			}
+		  
+			return Promise.resolve({
+			  status: 200,
+			  json: jest.fn().mockResolvedValue({
+					id: new Types.ObjectId(),
+					name: body.name,
+					email: body.email,
+			  }),
+			});
+		});
+	});
+	
 	afterAll(async () => {
-		await UserModel.deleteMany({});
+		await jest.resetAllMocks();
+		await jest.restoreAllMocks();
+	});
+
+	afterEach(async () => {
+		await jest.clearAllMocks();
 	});
 
 	it('returns a user', async () => {
-		const user = await UserModel.create({
-			name: 'testuser',
-			email: 'test@test.com',
-			birth_date: new Date()
-		});
 		const res = await request(app)
-			.get(`/users/${user._id}`);
+			.get('/users/test');
         
 		expect(res.statusCode).toEqual(200);
 	});
 	it('fails returning a user if not exists', async () => {
 		const res = await request(app)
-			.get(`/users/${new Types.ObjectId()}`);
+			.get('/users/404');
 		expect(res.statusCode).toEqual(404);
 	});
 });

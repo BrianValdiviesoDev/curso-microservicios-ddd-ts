@@ -135,3 +135,44 @@ Añadimos estos scripts al package.json
 `test`: Lanza todos los tests.
 `test:watch`: Lanza todos los tests en watch mode.
 `test:cov`: Lanza un coverage y genera un reporte en `html-report/report.html` 
+
+### Servidor Mock
+Hemos desarrollado un servidor para poder mockear nuestros propios servicios.\
+La ideal inicial de esto era para poder hacer tests de integración y poder hacer llamadas entre microservicios en los tests sin que afectase a las bases de datos y sin necesidad de levantar todos los servicios.
+
+Planteamos la problemática que este servidor no es escalable porque tendríamos que hacerlo crecer muchísimo para poder cubrir todos los endpoints de todos los servicios por lo que descartamos su uso con esta finalidad.
+
+A pesar de esto observamos que es una buena herramienta para desarrollar. Para hacer los tests vamos a utilizar las funciones de mock que trae Jest, pero para hacer unos tests manuales es muy práctico tener un servidor con rutas mock para poder debugear.
+
+
+## 3. Observabilidad
+El stack que vamos a utilizar para la observabilidad es:
+- `Loki`: se encarga de recopilar los logs generados.  
+- `Prometheus`: recolecta y almacena métricas.
+- `Grafana`: visualiza tanto las métricas de Prometheus como los logs de Loki en dashboards centralizados.
+
+Primero debemos instalar la librería que nos servirá para enviar los logs desde nuestro servicio a Loki utilizando Winston
+```bash
+npm i winston-loki
+```
+Y actualizaremos nuestro logger para que winston también envie los logs a Loki.
+
+Necesitaremos también en la raíz de nuestro proyecto estos ficheros:
+- `./loki-config.yml`: configuraciones de Loki.
+- `./prometheus.yml`: configuraciones de Prometheus.
+- `./provisioning/datasources/datasources.yml`: este fichero contiene la configuración de Grafana para establecer como fuente de datos Loki y Prometheus. Esta estructura de carpetas es necesaria para montar el volumen en el docker compose. 
+
+
+Y por último añadiremos este stack a nuestro docker compose.
+
+
+(OPCIONAL) En caso de no tener las fuentes de datos precargadas en nuestro fichero de configuración de Grafana como se indica más arriba:
+Vamos a acceder a Grafana y haremos la siguiente configuración.
+- Accedemos a Grafana en [http://localhost:3000](http://localhost:3000) con user `admin` y pass `admin`.
+- Añadir Prometheus: añadimos Prometheus como fuente de datos apuntando al host `http://host.docker.internal:9090/`
+- Añadir Loki: añadimos Loki como fuente de datos apuntando al host `http://host.docker.internal:3100/`
+
+Esta infraestructura ya tiene cierto nivel de complejidad por lo que vamos a separar los ficheros docker compose en 2:
+- `docker-compose.yml`: Contiene solamente nuestros microservicios.
+- `docker-compose.infra.yml`: Contienen nuestras piezas de infraestructura ajenas a nuestros servicios.
+
