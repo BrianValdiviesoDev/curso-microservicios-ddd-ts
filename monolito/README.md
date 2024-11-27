@@ -97,6 +97,12 @@ Swagger -> [http://localhost:3000/api-docs](http://localhost:3000/api-docs)
 
 ## Changelog
 
+### 1.2 - Migrate user endpoints
+Migrate all user endpoints
+
+### 1.1 - Migrate create user
+Migrate create user endpoint
+
 ### 1.0 - First version
 Add first features for the project.
 
