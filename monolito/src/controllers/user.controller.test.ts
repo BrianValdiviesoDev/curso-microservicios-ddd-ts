@@ -9,7 +9,7 @@ let mongoServer: MongoMemoryServer;
 beforeAll(async () => {
 	mongoServer = await MongoMemoryServer.create();
 	const mongoUri = await mongoServer.getUri();
-	await mongoose.connect(mongoUri);
+	await mongoose.connect(mongoUri);	
 });
 
 afterAll(async () => {
@@ -18,8 +18,44 @@ afterAll(async () => {
 });
 
 describe('POST /users/', () => {
+	beforeAll(async () => {
+		global.fetch = jest.fn().mockImplementation((url, options) => {
+			if (!url.includes(process.env.USERS_MICRO)) {
+				console.error('USERS_MICRO is not set as environment variable');
+			  return Promise.resolve({
+					status: 404,
+					text: jest.fn().mockResolvedValue('Not Found'),
+			  });
+			}
+			// Validar campos obligatorios
+			const body = JSON.parse(options?.body || '{}');
+			if (!body.name || !body.email) {
+			  return Promise.resolve({
+					status: 400,
+					text: jest.fn().mockResolvedValue('Email and name are required'),
+			  });
+			}
+		  
+			// Simular una respuesta exitosa si todo está bien
+			return Promise.resolve({
+			  status: 201,
+			  json: jest.fn().mockResolvedValue({
+					id: new Types.ObjectId(),
+					name: body.name,
+					email: body.email,
+			  }),
+			});
+		});
+	});
+	
+	afterAll(async () => {
+		await jest.resetAllMocks();
+		await jest.restoreAllMocks();
+	});
+
 	afterEach(async () => {
 		await UserModel.deleteMany({});
+		await jest.clearAllMocks();
 	});
 
 	it('creates a new user', async () => {

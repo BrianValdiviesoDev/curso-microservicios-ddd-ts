@@ -1,0 +1,77 @@
+version: '3'
+
+services:
+  mongo:
+    image: mongo:4.4.6
+    restart: always
+    ports:
+      - "27017:27017"
+    environment:
+      - MONGO_DB_NAME=family-planner
+    networks:
+      - curso-ddd
+    volumes:
+      - type: volume
+        source: MONGO_DATA
+        target: /data/db
+      - type: volume
+        source: MONGO_CONFIG
+        target: /data/configdb
+  
+  mocks:
+    build:
+      context: mocks/
+      dockerfile: Dockerfile
+    ports:
+      - "4010:3000"
+    environment:
+      - PORT=3000
+      - NODE_ENV=test
+    networks:
+      - curso-ddd
+
+  loki:
+    image: grafana/loki:latest
+    ports:
+      - "3100:3100"
+    volumes:
+      - ./loki-config.yml:/etc/loki/loki-config.yaml
+      - ./data/loki/index:/loki/index
+      - ./data/loki/chunks:/loki/chunks
+      - ./data/loki/boltdb-cache:/loki/boltdb-cache
+    command: -config.file=/etc/loki/loki-config.yaml -config.expand-env=true
+    networks:
+      - curso-ddd
+  
+  prometheus:
+    image: prom/prometheus:v2.46.0
+    ports:
+      - 9090:9090
+    volumes:
+      - ./provisioning/datasources:/etc/grafana/provisioning/datasources
+      - grafana-data:/var/lib/grafana
+    networks:
+      - curso-ddd
+  
+  grafana:
+    image: grafana/grafana:latest
+    ports:
+      - "3000:3000"
+    networks:
+      - curso-ddd
+    volumes:
+      - ./provisioning/datasources:/etc/grafana/provisioning/datasources
+      - grafana-data:/var/lib/grafana
+
+
+networks:
+  curso-ddd:
+    driver: bridge
+
+volumes:
+  MONGO_DATA:
+    name: mongo_data
+  MONGO_CONFIG:
+    name: mongo_config 
+  grafana-data:
+    name: grafana-data

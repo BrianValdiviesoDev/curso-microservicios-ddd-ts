@@ -9,9 +9,9 @@
     "start": "node dist/index.js",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
-    "test": "jest --runInBand --testTimeout=10000",
+    "test": "jest --runInBand --testTimeout=10000 --forceExit",
     "test:watch": "jest --watch --runInBand --detectOpenHandles",
-    "test:cov": "jest --coverage --runInBand --detectOpenHandles"
+    "test:cov": "jest --coverage --runInBand --detectOpenHandles --forceExit"
   },
   "repository": {
     "type": "git",
