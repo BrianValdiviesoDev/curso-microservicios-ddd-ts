@@ -52,6 +52,19 @@ services:
       - type: volume
         source: MONGO_CONFIG
         target: /data/configdb
+  
+  mocks:
+    build:
+      context: mocks/
+      dockerfile: Dockerfile
+    ports:
+      - "4010:3000"
+    environment:
+      - PORT=3000
+      - NODE_ENV=test
+    networks:
+      - curso-ddd
+
 
 networks:
   curso-ddd:
