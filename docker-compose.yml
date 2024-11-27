@@ -12,6 +12,7 @@ services:
       - NODE_ENV=prod
       - DB_URI=mongodb://mongo:27017/family-planner
       - USERS_MICRO=http://micro-users:3001
+      - LOKI_URL=http://loki:3100
     networks:
       - curso-ddd
     volumes:
@@ -29,6 +30,7 @@ services:
       - PORT=3001
       - NODE_ENV=prod
       - DB_URI=mongodb://mongo:27017/users
+      - LOKI_URL=http://loki:3100
     networks:
       - curso-ddd
     volumes:
@@ -71,7 +73,8 @@ services:
     ports:
       - 9090:9090
     volumes:
-      - ./prometheus.yml:/etc/prometheus/prometheus.yml
+      - ./provisioning/datasources:/etc/grafana/provisioning/datasources
+      - grafana-data:/var/lib/grafana
     networks:
       - curso-ddd
   
@@ -81,6 +84,9 @@ services:
       - "3000:3000"
     networks:
       - curso-ddd
+    volumes:
+      - ./grafana-datsources.yml:/etc/grafana/provisioning/datasources
+      - grafana-data:/var/lib/grafana
 
 networks:
   curso-ddd:
