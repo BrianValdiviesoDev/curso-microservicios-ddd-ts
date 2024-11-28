@@ -1,4 +1,4 @@
-import { LicenseType } from '../domain/user.entity';
+import { LicenseType } from '../domain/user.interface';
 
 export class CreateUserDTO {
 	constructor(

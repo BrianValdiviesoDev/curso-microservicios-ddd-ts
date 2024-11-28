@@ -1,4 +1,5 @@
-import { Rol, User } from '../domain/user.entity';
+import { User } from '../domain/user.entity';
+import { Rol } from '../domain/user.interface';
 import { CreateUserDTO } from './createUser.dto';
 import { UserDto } from './user.dto';
 
@@ -17,9 +18,10 @@ export class UserMapper {
 	// Mapeo de salida a infra
 	static toDto(user: User): UserDto {
 		return new UserDto(
+			user.id,
 			user.name,
-			user.email,
 			user.rol,
+			user.email,
 			user.birth_date,
 			user.car_license
 		);

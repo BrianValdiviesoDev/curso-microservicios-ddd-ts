@@ -1,27 +1,8 @@
 
 import { v6 as uuidv6 } from 'uuid';
+import { IUser, LicenseType, Rol } from './user.interface';
 
-export enum Rol{
-    USER = 'USER',
-    ADMIN = 'ADMIN',
-    SUPERADMIN = 'SUPERADMIN',
-    FOUNDER = 'FOUNDER'
-}
 
-export enum LicenseType{
-    B = 'B',
-    A2 = 'A2',
-    AM = 'AM'
-}
-
-export interface IUser {
-    id: string;
-    name: string;
-    email: string;
-    birth_date?: Date;
-    rol: Rol[];
-    car_license?: LicenseType;
-  }
   
 export class User implements IUser {
 	public readonly id: string;
@@ -38,7 +19,7 @@ export class User implements IUser {
 		birth_date?: Date,
 		car_license?: LicenseType
 	) {
-		this.id = uuidv6();
+		this.id = userId();
 		this.name = name;
 		this.email = email;
 		this.birth_date = birth_date;
@@ -68,3 +49,7 @@ export class User implements IUser {
 		return emailRegex.test(email);
 	}
 }
+
+const userId = ():string => {
+	return uuidv6();
+};
