@@ -176,3 +176,4 @@ Esta infraestructura ya tiene cierto nivel de complejidad por lo que vamos a sep
 - `docker-compose.yml`: Contiene solamente nuestros microservicios.
 - `docker-compose.infra.yml`: Contienen nuestras piezas de infraestructura ajenas a nuestros servicios.
 
+## 4. Clean Architecture

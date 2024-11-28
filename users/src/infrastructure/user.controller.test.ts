@@ -2,7 +2,7 @@ import request from 'supertest';
 import { app } from '../server';
 import { MongoMemoryServer } from 'mongodb-memory-server';
 import mongoose, { Types } from 'mongoose';
-import UserModel from '../entities/user.schema';
+import UserModel from './user.schema';
 
 let mongoServer: MongoMemoryServer;
 
@@ -17,13 +17,13 @@ afterAll(async () => {
 	await mongoServer.stop();
 });
 
-describe('POST /users/', () => {
+describe('POST /', () => {
 	afterEach(async () => {
 		await UserModel.deleteMany({});
 	});
 
 	it('creates a new user', async () => {
-		const res = await request(app).post('/users/').send({
+		const res = await request(app).post('/').send({
 			
 			name: 'testuser',
 			email: 'testuser@example.com',
@@ -33,7 +33,7 @@ describe('POST /users/', () => {
 		expect(res.statusCode).toEqual(201);
 	});
 	it('fails creating a new user if some fields are empty', async () => {
-		const emptyName = await request(app).post('/users/').send({
+		const emptyName = await request(app).post('/').send({
 			name: '',
 			email: 'testuser@example.com',
 			birth_date: new Date()
@@ -42,7 +42,7 @@ describe('POST /users/', () => {
 	});
 });
 
-describe('PUT /users/:id', () => {
+describe('PUT /:id', () => {
 	afterEach(async () => {
 		await UserModel.deleteMany({});
 	});
@@ -57,7 +57,7 @@ describe('PUT /users/:id', () => {
 			name: 'my new name',
 		};
 		const res = await request(app)
-			.put(`/users/${existing._id}`)
+			.put(`/${existing._id}`)
 			.send({user});
 		expect(res.statusCode).toEqual(200);
 		expect(res.body.name).toBe(user.name);
@@ -65,7 +65,7 @@ describe('PUT /users/:id', () => {
 
 });
 
-describe('DELETE /users/:id', () => {
+describe('DELETE /:id', () => {
 	afterEach(async () => {
 		await UserModel.deleteMany({});
 	});
@@ -77,20 +77,20 @@ describe('DELETE /users/:id', () => {
 			birth_date: new Date()
 		});
 		const res = await request(app)
-			.delete(`/users/${user._id}`);
+			.delete(`/${user._id}`);
 
 		expect(res.statusCode).toEqual(200);
 	});
 
 	it('fail deleting a user if not exists', async () => {
 		const res = await request(app)
-			.delete(`/users/${new Types.ObjectId()}`);
+			.delete(`/${new Types.ObjectId()}`);
 
 		expect(res.statusCode).toEqual(404);
 	});
 });
 
-describe('GET /users/', () => {
+describe('GET /', () => {
 	afterEach(async () => {
 		await UserModel.deleteMany({});
 	});
@@ -114,7 +114,7 @@ describe('GET /users/', () => {
 			}
 		]);
 		const res = await request(app)
-			.get('/users/');
+			.get('/');
 		expect(res.statusCode).toEqual(200);
 
 		const list = await UserModel.find({});
@@ -122,7 +122,7 @@ describe('GET /users/', () => {
 	});
 });
 
-describe('GET /users/:id', () => {
+describe('GET /:id', () => {
 	afterAll(async () => {
 		await UserModel.deleteMany({});
 	});
@@ -134,13 +134,13 @@ describe('GET /users/:id', () => {
 			birth_date: new Date()
 		});
 		const res = await request(app)
-			.get(`/users/${user._id}`);
+			.get(`/${user._id}`);
         
 		expect(res.statusCode).toEqual(200);
 	});
 	it('fails returning a user if not exists', async () => {
 		const res = await request(app)
-			.get(`/users/${new Types.ObjectId()}`);
+			.get(`/${new Types.ObjectId()}`);
 		expect(res.statusCode).toEqual(404);
 	});
 });

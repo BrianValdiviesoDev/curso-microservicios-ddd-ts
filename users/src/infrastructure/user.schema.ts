@@ -1,6 +1,8 @@
 import { Model, Schema, model } from 'mongoose';
-import { UserDocument } from './user.interface';
+import { IUser } from '../domain/user.entity';
 
+export interface UserDocument extends IUser, Document {}
+  
 const UserSchema = new Schema<UserDocument>(
 	{
 		name: {
@@ -30,5 +32,5 @@ const UserSchema = new Schema<UserDocument>(
 	}
 );
 
-const UserModel: Model<UserDocument> = model('User', UserSchema);
+const UserModel: Model<UserDocument & Document> = model('User', UserSchema);
 export default UserModel;
