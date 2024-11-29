@@ -37,11 +37,8 @@ Bienvenido al backend del **Family Organizer**, una solución integral para gest
 
 ## Changelog
 
-### 1.5 - Migrate to clean architecture
+### 1.4 - Migrate to clean architecture
 Migrate micro users to clean architecture
-
-### 1.4 - Migrate user endpoints
-Migrate all user endpoints
 
 ### 1.3 - Migrate user endpoints
 Migrate all user endpoints
