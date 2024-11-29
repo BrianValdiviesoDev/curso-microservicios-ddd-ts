@@ -177,3 +177,18 @@ Esta infraestructura ya tiene cierto nivel de complejidad por lo que vamos a sep
 - `docker-compose.infra.yml`: Contienen nuestras piezas de infraestructura ajenas a nuestros servicios.
 
 ## 4. Clean Architecture
+Migramos el micro de usuarios de una arquitectura MVC a Clean Architecture.\
+Para ello hacemos la siguiente estructura de carpetas:\
+src/\
+├── application/\
+├── domain/\
+├── infrastructure/\
+├── framework/\
+├── routes/
+
+De una forma extremadamente resumida:
+- `application`: Contiene los casos de uso y si son necesarios mappers y dtos.
+- `domain`: Contiene toda la lógica de negocio. Las entidades y las interfaces de salida.
+- `infraestructure`: Contiene los controllers y si son necesarios algun dto o mapper.
+- `framework`: Aquí colocamos todo lo necesario para que express funcione.
+- `routes`: Las rutas de express.   

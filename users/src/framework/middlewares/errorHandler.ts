@@ -1,30 +1,22 @@
 import { NextFunction, Request, Response } from 'express';
 import logger from '../logger';
-import { AppError } from '../../errors/errorfactory';
+import { BadRequestError, NotFoundError, ValidationError } from '../../errors/errorfactory';
 
-export const errorHandler = (
-	err: Error,
-	req: Request,
-	res: Response,
-	next: NextFunction,
-) => {
-	logger.error(`${err.message} - ${req.method} ${req.originalUrl}`);
-	if (err instanceof AppError) {
-		res.status(err.statusCode).json({
-			status: 'error',
-			message: err.message,
-		});
-	} else if (err instanceof Error) {
-		res.status(400).json({
-			status: 'error',
-			message: err.message,
-		});
-	} else {
-		res.status(500).json({
-			status: 'error',
-			message: 'Something went wrong',
-	  });
+export class ErrorHandler{
+
+	static handle(err: Error, req: Request, res: Response, next: NextFunction) {
+		logger.error(`${err.message} - ${req.method} ${req.originalUrl}`);
+		if (err.name === NotFoundError.name) {
+			ErrorHandler.buildResponse(err.message, 404, res);
+		} else if (err.name == BadRequestError.name || err.name == ValidationError.name) {
+			ErrorHandler.buildResponse(err.message, 400, res);
+		} else {
+			ErrorHandler.buildResponse(err.message, 500, res);
+		}
+		next();
 	}
-	next();
-	return;
-};
+
+	static buildResponse(error: string, statusCode: number, res: Response) {
+		return res.status(statusCode).send(error);
+	}
+}

@@ -12,7 +12,7 @@ export enum LicenseType{
 }
 
 export interface IUser {
-    id: string;
+    userId: string;
     name: string;
     email: string;
     birth_date?: Date;

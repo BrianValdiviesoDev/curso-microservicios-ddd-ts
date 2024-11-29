@@ -11,6 +11,9 @@ const customFormat = printf(({ level, message, timestamp, stack }) => {
 
 // Crear el logger con Winston
 const logger = createLogger({
+	defaultMeta: {
+		label: 'micro-users', 
+	},
 	format: combine(
 		timestamp({ format: 'YYYY-MM-DD HH:mm:ss' }),
 		errors({ stack: true }), // Maneja errores con stack traces

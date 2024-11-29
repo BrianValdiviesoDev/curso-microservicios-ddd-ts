@@ -14,7 +14,7 @@ export class MongoService {
 	}
 
 	connect() {
-		mongoose.set('debug', process.env.NODE_ENV=='dev');
+		mongoose.set('debug', true);
 		mongoose
 			.connect(this.uri)
 			.then(

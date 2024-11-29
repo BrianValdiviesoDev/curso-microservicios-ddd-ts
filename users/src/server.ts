@@ -1,7 +1,7 @@
 import express from 'express';
 import { Request, Response } from 'express';
 import expressConfig from './framework/express';
-import { errorHandler } from './framework/middlewares/errorHandler';
+import { ErrorHandler } from './framework/middlewares/errorHandler';
 import UserRouter from './routes/user.routes';
 
 const app = express();
@@ -16,6 +16,6 @@ app.get('/monit/health', (req: Request, res: Response) => {
 
 app.use('/', UserRouter);
 
-app.use(errorHandler);
+app.use(ErrorHandler.handle);
 
 export { app };

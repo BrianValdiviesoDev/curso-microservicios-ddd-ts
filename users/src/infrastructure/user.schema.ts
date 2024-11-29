@@ -5,6 +5,12 @@ export interface UserDocument extends IUser, Document {}
   
 const UserSchema = new Schema<UserDocument>(
 	{
+		userId: {
+			type: String,
+			required: true,
+			unique: true,
+			index:true
+		},
 		name: {
 			type: String,
 			required: true,

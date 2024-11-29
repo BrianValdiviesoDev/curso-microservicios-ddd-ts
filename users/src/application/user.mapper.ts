@@ -10,6 +10,7 @@ export class UserMapper {
 			dto.name,
 			dto.email,
 			[Rol.USER],
+			undefined,
 			dto.birth_date,
 			dto.car_license
 		);
@@ -18,7 +19,7 @@ export class UserMapper {
 	// Mapeo de salida a infra
 	static toDto(user: User): UserDto {
 		return new UserDto(
-			user.id,
+			user.userId,
 			user.name,
 			user.rol,
 			user.email,

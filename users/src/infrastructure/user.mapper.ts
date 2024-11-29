@@ -8,6 +8,7 @@ export class UserMapper {
 			document.name,
 			document.email,
 			document.rol,
+			document.userId,
 			document.birth_date,
 			document.car_license
 		);

@@ -1,11 +1,12 @@
 
 import { v6 as uuidv6 } from 'uuid';
 import { IUser, LicenseType, Rol } from './user.interface';
+import { ValidationError } from '../errors/errorfactory';
 
 
   
 export class User implements IUser {
-	public readonly id: string;
+	public readonly userId: string;
 	public name: string;
 	public email: string;
 	public birth_date?: Date;
@@ -16,10 +17,11 @@ export class User implements IUser {
 		name: string,
 		email: string,
 		rol: Rol[],
+		id?:string,
 		birth_date?: Date,
 		car_license?: LicenseType
 	) {
-		this.id = userId();
+		this.userId = userId(id);
 		this.name = name;
 		this.email = email;
 		this.birth_date = birth_date;
@@ -34,12 +36,12 @@ export class User implements IUser {
 	private validate() {
 		// Validación del correo electrónico
 		if (!this.isValidEmail(this.email)) {
-			throw new Error('El correo electrónico no es válido.');
+			throw new ValidationError(`El correo electrónico ${this.email} no es válido.`);
 		}
   
 		// Validación de los roles (puedes agregar más validaciones según tu necesidad)
 		if (!this.rol || this.rol.length === 0) {
-			throw new Error('El usuario debe tener al menos un rol.');
+			throw new ValidationError('El usuario debe tener al menos un rol.');
 		}
 	}
   
@@ -50,6 +52,6 @@ export class User implements IUser {
 	}
 }
 
-const userId = ():string => {
-	return uuidv6();
+const userId = (id?:string):string => {
+	return id || uuidv6();
 };
