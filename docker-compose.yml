@@ -1,9 +1,9 @@
 version: '3'
 
 services:
-  api:
+  monolito:
     build:
-      context: ./
+      context: monolito/
       dockerfile: Dockerfile
     ports:
       - "4000:3000"
@@ -11,29 +11,32 @@ services:
       - PORT=3000
       - NODE_ENV=prod
       - DB_URI=mongodb://mongo:27017/family-planner
+      - USERS_MICRO=http://micro-users:3001
+      - LOKI_URL=http://loki:3100
     networks:
       - curso-ddd
     volumes:
       - type: volume
         source: api_logs
         target: /app/logs
-  
-  mongo:
-    image: mongo:4.4.6
-    restart: always
+    
+  micro-users:
+    build:
+      context: users/
+      dockerfile: Dockerfile
     ports:
-      - "27017:27017"
+      - "4001:3001"
     environment:
-      - MONGO_DB_NAME=family-planner
+      - PORT=3001
+      - NODE_ENV=prod
+      - DB_URI=mongodb://mongo:27017/users
+      - LOKI_URL=http://loki:3100
     networks:
       - curso-ddd
     volumes:
       - type: volume
-        source: MONGO_DATA
-        target: /data/db
-      - type: volume
-        source: MONGO_CONFIG
-        target: /data/configdb
+        source: api_logs
+        target: /app/logs
 
 networks:
   curso-ddd:
@@ -42,7 +45,3 @@ networks:
 volumes:
   api_logs:
     name: api_logs 
-  MONGO_DATA:
-    name: mongo_data
-  MONGO_CONFIG:
-    name: mongo_config 

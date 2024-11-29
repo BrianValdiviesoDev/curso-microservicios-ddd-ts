@@ -1,7 +1,8 @@
-dist/
-package-lock.json
-node_modules/
-.env
-logs/
-html-report/
-coverage/
+**/dist/
+**/package-lock.json
+**/node_modules/
+**/.env
+**/logs/
+**/html-report/
+**/coverage/
+data/
