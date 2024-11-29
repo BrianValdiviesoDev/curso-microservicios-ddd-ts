@@ -2,7 +2,7 @@ import request from 'supertest';
 import { app } from '../server';
 import { MongoMemoryServer } from 'mongodb-memory-server';
 import mongoose from 'mongoose';
-import UserModel from './user.schema';
+import UserModel from '../infrastructure/user.schema';
 import { User } from '../domain/user.entity';
 import { Rol } from '../domain/user.interface';
 
