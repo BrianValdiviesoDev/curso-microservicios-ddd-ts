@@ -11,8 +11,8 @@ router.post('/', async (req:Request, res:Response, next:NextFunction) => {
 			req.body.birth_date,
 			req.body.car_license
 		);
-		const user = await createUser(createUserDTO);
-		res.status(201).send(user);
+		const response = await createUser(createUserDTO);
+		res.status(response.statusCode).send(response.data);
 		return;
 	} catch (e) {
 		next(e);
@@ -21,8 +21,8 @@ router.post('/', async (req:Request, res:Response, next:NextFunction) => {
 
 router.get('/:id', async (req:Request, res:Response, next:NextFunction) => {
 	try {
-		const user = await findUser(req.params.id);
-		res.status(200).send(user);
+		const response = await findUser(req.params.id);
+		res.status(response.statusCode).send(response.data);
 		return;
 	} catch (e) {
 		next(e);
@@ -31,8 +31,8 @@ router.get('/:id', async (req:Request, res:Response, next:NextFunction) => {
 
 router.get('/', async (req:Request, res:Response, next:NextFunction) => {
 	try {
-		const users = await listUsers();
-		res.status(200).send(users);
+		const response = await listUsers();
+		res.status(response.statusCode).send(response.data);
 		return;
 	} catch (e) {
 		next(e);
@@ -47,8 +47,8 @@ router.put('/:id', async (req:Request, res:Response, next:NextFunction) => {
 			req.body.birth_date,
 			req.body.car_license
 		);
-		const users = await updateUser(req.params.id, createUserDTO);
-		res.status(200).send(users);
+		const response = await updateUser(req.params.id, createUserDTO);
+		res.status(response.statusCode).send(response.data);
 		return;
 	} catch (e) {
 		next(e);
@@ -57,8 +57,8 @@ router.put('/:id', async (req:Request, res:Response, next:NextFunction) => {
 
 router.delete('/:id', async (req:Request, res:Response, next:NextFunction) => {
 	try {
-		await deleteUser(req.params.id);
-		res.status(204).send();
+		const response = await deleteUser(req.params.id);
+		res.status(response.statusCode).send(response.data);
 		return;
 	} catch (e) {
 		next(e);
