@@ -12,6 +12,7 @@ export class VehicleMapper {
 		);
 	}
 
+
 	static toDto(vehicle: Vehicle): VehicleDto {
 		return new VehicleDto(
 			vehicle.vehicleId,

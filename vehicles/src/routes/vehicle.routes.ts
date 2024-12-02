@@ -6,10 +6,10 @@ const router = Router();
 router.post('/', async (req:Request, res:Response, next:NextFunction) => {
 	try {
 		const createVehicleDto = new CreateVehicleDTO(
-			req.body.name,
-			req.body.email,
-			req.body.birth_date,
-			req.body.car_license
+			req.body.licensePlate,
+			req.body.brand,
+			req.body.model,
+			req.body.kilometers
 		);
 		const vehicle = await createVehicle(createVehicleDto);
 		res.status(201).send(vehicle);
