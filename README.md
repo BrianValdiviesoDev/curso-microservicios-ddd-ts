@@ -37,6 +37,9 @@ Bienvenido al backend del **Family Organizer**, una solución integral para gest
 
 ## Changelog
 
+### 1.5 - Add vehicles service
+Add a micro service to manage vehicles
+
 ### 1.4 - Migrate to clean architecture
 Migrate micro users to clean architecture
 
