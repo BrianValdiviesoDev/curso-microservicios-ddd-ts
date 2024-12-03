@@ -147,7 +147,8 @@ A pesar de esto observamos que es una buena herramienta para desarrollar. Para h
 
 ## 3. Observabilidad
 El stack que vamos a utilizar para la observabilidad es:
-- `Loki`: se encarga de recopilar los logs generados.  
+- `Promtail`: se encarga de buscar y recolectar logs.
+- `Loki`: se almacenar y agregar logs como un Log Database.  
 - `Prometheus`: recolecta y almacena métricas.
 - `Grafana`: visualiza tanto las métricas de Prometheus como los logs de Loki en dashboards centralizados.
 
@@ -161,7 +162,7 @@ Necesitaremos también en la raíz de nuestro proyecto estos ficheros:
 - `./loki-config.yml`: configuraciones de Loki.
 - `./prometheus.yml`: configuraciones de Prometheus.
 - `./provisioning/datasources/datasources.yml`: este fichero contiene la configuración de Grafana para establecer como fuente de datos Loki y Prometheus. Esta estructura de carpetas es necesaria para montar el volumen en el docker compose. 
-
+- `./promtail-config.yml`: configuración de Promtail.
 
 Y por último añadiremos este stack a nuestro docker compose.
 
@@ -175,6 +176,13 @@ Vamos a acceder a Grafana y haremos la siguiente configuración.
 Esta infraestructura ya tiene cierto nivel de complejidad por lo que vamos a separar los ficheros docker compose en 2:
 - `docker-compose.yml`: Contiene solamente nuestros microservicios.
 - `docker-compose.infra.yml`: Contienen nuestras piezas de infraestructura ajenas a nuestros servicios.
+
+### Flujo de logs
+- __Microservicios__ : Envian logs directamente a Loki a través de un `winston-loki`.
+- __Piezas de infraestructura__: Generan logs en texto plano en el path `./logs/_nombre_del_servicio/**.log`.
+- __Recolección de logs__: Promtail se encarga de buscar y recolectar logs del path `./logs/`. En el fichero de config es donde indicamos cada servicio con su path correspondiente.
+- __Almacenamiento de logs__: Loki se encarga de recibir logs tanto de Promtail como de los microservicios, los almacena de forma estructurada y los disponibiliza:
+- __Monitorización__: Grafana se conecta con Loki para acceder a todos los logs y poder visualizarlos.
 
 ## 4. Clean Architecture
 Migramos el micro de usuarios de una arquitectura MVC a Clean Architecture.\
@@ -205,3 +213,9 @@ npm i -D @types/amqplib
 ```
 
 En el docker compose de infra, añadimos el Rabbit.
+
+Para poder monitorizar logs necesitamos añadir un fichero rabbitmq.conf donde indicamos la ubicación de los logs que debe exportar.
+
+## 6. Patrones de diseño
+En arquitectura de microservicios es una buena práctica utilizar un api-gateway que nos centralice las llamadas y nos distribuya el tráfico a los microservicios.\
+En este caso vamos a utilizar Nginx y para ello actualizaremos el `docker-compose.infra.yml` y añadiremos el fichero `nginx.conf` donde añadiremos las reglas de redireccionamiento.

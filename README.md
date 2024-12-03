@@ -46,7 +46,20 @@ Además tenemos:
 - `docker-compose.infra.yml`: Docker compose solo con los servicios de infraestructura.
 - `*.md`: Ficheros explicativos o ejercicios propuestos.
 
+## Infraestructura
+Las piezas necesarias de infraestructura para este proyecto son:
+- `Nginx`: Utilizado como api-gateway para redireccionar a los microservicios.
+- `Mongo`: Base de datos no relacional.
+- `Loki`: Recolector de logs para enviarlos a Grafana.
+- `Grafana`: Monitorizador de logs y métricas.
+- `Prometheus`: Recolector de métricas de los servicios.
+- `RabbitMQ`: Broker de mensajería.
+- `Promtail`: Recolector de logs de Nginx para enviarlos a Grafana.
 
+### Enlaces
+- __Grafana__: [http://localhost:3000](http://localhost:3000) (User:admin, Pass:admin) 
+- __RabbitMQ__: [http://localhost:15672](http://localhost:15672) (User:guess, Pass:guess) 
+- __API-GATEWAY__: [http://localhost:5000](http://localhost:5000)
 ## Changelog
 
 ### 1.6 - Add event communication
