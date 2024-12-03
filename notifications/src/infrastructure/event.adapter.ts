@@ -45,5 +45,28 @@ export class EventRabbitAdapter implements EventPort{
 			throw error;
 		}
 	}
+
+	async consume(queue: string, routingKey: string, onMessage: (event: Event) => void): Promise<void> {
+		if (!this.channel) {
+			logger.error('RabbitMQ connection is not established. Call connect() first.');
+		  	throw new Error('RabbitMQ connection is not established. Call connect() first.');
+		}
+		await this.channel.assertQueue(queue, { durable: true });
+		await this.channel.bindQueue(queue, this.exchange, routingKey);
+	
+		this.channel.consume(queue, (msg) => {
+		  	if (msg) {
+				try {
+					const event: Event = JSON.parse(msg.content.toString());
+					onMessage(event);
+					this.channel.ack(msg);
+				} catch (error) {
+					logger.error('Error processing message:', error);
+					this.channel.nack(msg, false, false);
+				}
+		  	}
+		});
+		logger.info(`Consumer setup for queue '${queue}' with routingKey '${routingKey}'`);
+	}
     
 }
