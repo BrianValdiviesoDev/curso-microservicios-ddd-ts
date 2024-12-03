@@ -6,9 +6,13 @@ import { UpdateUserUseCase } from '../application/updateUser.useCase';
 import { DeleteUserUseCase } from '../application/deleteUse.useCase';
 import { ListUserUseCase } from '../application/listUsers.useCase';
 import { UserHttpResponseDto } from '../infrastructure/user.dto';
+import { EventRabbitAdapter } from './event.adapter';
+
+const rabbitAdapter = new EventRabbitAdapter();
+rabbitAdapter.connect();
 
 export const createUser = async (user: CreateUserDTO): Promise<UserHttpResponseDto> => {
-	const userUseCase = new CreateUserUseCase(new UserDbAdapter());
+	const userUseCase = new CreateUserUseCase(new UserDbAdapter(), rabbitAdapter);
 	const created = await userUseCase.execute(user);
 	return new UserHttpResponseDto(201, created);
 };
