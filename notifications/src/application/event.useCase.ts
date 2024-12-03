@@ -1,6 +1,7 @@
 import { EventPort } from '../domain/event.port';
 import { Event } from '../domain/event.entity';
 import logger from '../framework/logger';
+import { EventMapper } from './event.mapper';
 
 export class EventUseCase {
 	constructor(private eventPort: EventPort) {}
@@ -13,8 +14,8 @@ export class EventUseCase {
 		//Conectar con un puerto de email para enviar
 		//Conectar con un puerto de sms para enviar
 		await this.eventPort.consume(queue, name, (event: Event) => {
-			logger.info(`Event received: ${JSON.stringify(event)}`);
-			logger.info(`${event.content.name} bienvenido a la aplicación Family Planner`);
+			const userEvent = EventMapper.toUserEvent(event);
+			logger.info(`${userEvent?.user.name} bienvenido a la aplicación Family Planner`);
 		});
 	}
 }

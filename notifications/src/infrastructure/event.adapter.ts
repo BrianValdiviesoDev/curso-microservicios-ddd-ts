@@ -57,7 +57,8 @@ export class EventRabbitAdapter implements EventPort{
 		this.channel.consume(queue, (msg) => {
 		  	if (msg) {
 				try {
-					const event: Event = JSON.parse(msg.content.toString());
+					const json = JSON.parse(msg.content.toString());
+					const event = new Event(json.name, JSON.parse(json.content));
 					onMessage(event);
 					this.channel.ack(msg);
 				} catch (error) {
