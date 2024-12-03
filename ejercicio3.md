@@ -1,18 +1,16 @@
-# Ejercicio práctico 3: BFF para Apps
+# Ejercicio práctico 4: Contexto de familia
 ## Contexto
-Hemos decidido lanzar nuestra propia APP y necesitamos un backend para darles servicio.\
-En esta APP queremos poder gestionar nuestra familia, vehiculos... Y recibir notificaciones.
+Necesitamos tener un servicio core que nos permitar gestionar todos los datos de nuestra plataforma bajo el contexto de familia.\
+Este servicio tiene una entidad familia que contiene miembros y vehículos.
 
 ## 🚀 Casos de uso
-### Añadir un miembro a la familia
-Queremos poder añadir un miembro a la familia utilizando el email del usuario.\
-Inputs: email de nuevo miembro, id de la familia.
+### Crear una familia
+Hay que poder crear una familia con al menos un miembro inicial
 
-### Gestión de vehículos
-Tenemos que poder hacer toda la gestión que ya tenemos de vehículos en nuestro servicios desde la app.
+### Añadir un miembro
+Queremos poder añadir miembros a una familia y enviarles una notificación a los demás miembros para que le den la bienvenida.
 
-### Notificación de ITV vencida
-Queremos avisar con un email a los usuarios que la ITV de un vehículo a caducado.
+### Añadir un vehículo
+Hay que poder añadir vehículos a la familia.
 
-### Notificación de nuevo miembro en la familia
-Queremos avisar a todos los miembros de una familia cuando se añada uno nuevo.
+

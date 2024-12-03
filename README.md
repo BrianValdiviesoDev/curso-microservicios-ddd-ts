@@ -35,7 +35,22 @@ Bienvenido al backend del **Family Organizer**, una solución integral para gest
 - **Loki**: Captura de logs.
 - **Prometheus**: Captura de métricas.
 
+## Estructura
+Existe una carpeta por cada servicio simulando ser un monorepo, aunque lo ideal sería tener cada servicio en su repositorio independiente.\
+Además tenemos:
+- `provisioning/`: Esta carpeta se usa para montarla en un volumen de Grafana con los datasources precargados.
+- `mocks/`: Un servidor express con servicios mockeados para poder hacer development en local.
+- `loki-config-yml`: Fichero de configuración de Loki.
+- `prometheus.yml`: Fichero de configuración de Prometheus.
+- `docker-compose.yml`: Docker compose solo con los microservicios.
+- `docker-compose.infra.yml`: Docker compose solo con los servicios de infraestructura.
+- `*.md`: Ficheros explicativos o ejercicios propuestos.
+
+
 ## Changelog
+
+### 1.6 - Add event communication
+Add notifications service and communicate it with other services using RabbitMQ
 
 ### 1.5 - Add vehicles service
 Add a micro service to manage vehicles

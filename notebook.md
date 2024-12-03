@@ -192,3 +192,16 @@ De una forma extremadamente resumida:
 - `infraestructure`: Contiene los controllers y si son necesarios algun dto o mapper.
 - `framework`: Aquí colocamos todo lo necesario para que express funcione.
 - `routes`: Las rutas de express.   
+
+## 5. Comunicación por eventos
+Para comunicar servicios de forma asíncrona vamos a utilizar un sistema de colas de mensajería (eventos).\
+En este ejemplo tenemos un microservicio que se encarga de gestionar las notificaciones y por lo tanto necesitamos recibir eventos de diferentes servicios.\
+Para no acoplar los servicios entre sí, vamos a utilizar `routingKey` que nos permite enviar eventos sin conocer quien los va a recibir.
+
+Para este caso vamos a utilizar RabbitMQ y la librería `amqplib`
+```bash
+npm i amqplib
+npm i -D @types/amqplib
+```
+
+En el docker compose de infra, añadimos el Rabbit.

@@ -1,16 +1,4 @@
-# Ejercicio práctico 5: Front con Clean Architecture
+# Ejercicio práctico 5: CQRS
 ## Contexto
-Tenemos una app que va contra nuestro BFF y ahora queremos implementar un frontal para tener acceso desde escritorio.\
-Necesitamos crear un servicio nuevo que haga exactamente lo mismo que nuestras APPS.\
-Tenemos dudas sobre qué framework elegir, por ahora nos gusta React pero hemos oido hablar bien de Angular y Vue.
-
-## 🚀 Casos de uso
-### Añadir un miembro a la familia
-Queremos poder añadir un miembro a la familia utilizando el email del usuario.
-
-### Gestión de vehículos
-Tenemos que poder hacer toda la gestión que ya tenemos de vehículos en nuestro servicios desde la app.
-
-### Notificaciones
-Queremos poder tener una pestaña de notificaciones.
-
+Nuestro proyecto ha tenido muy buena acogida y una funcionalidad muy utilizada es la de gestión de vehículos.\
+Como acumulamos mucha información de miles de usuarios, hemos abierto como SaaS nuestra API. El problema es que tenemos una carga muy elevada de descarga de información y hemos tenido que escalar la infraestructura. Como medida de ahorro vamos a implementar el patrón CQRS para poder reducir la potencia de la parte de escritura y mejorar la de lectura.
