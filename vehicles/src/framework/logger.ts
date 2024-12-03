@@ -12,7 +12,7 @@ const customFormat = printf(({ level, message, timestamp, stack }) => {
 // Crear el logger con Winston
 const logger = createLogger({
 	defaultMeta: {
-		label: 'micro-users', 
+		label: 'micro-vehicles', 
 	},
 	format: combine(
 		timestamp({ format: 'YYYY-MM-DD HH:mm:ss' }),
@@ -26,7 +26,7 @@ const logger = createLogger({
 		new transports.File({ filename: 'logs/combined.log' }), // Logs generales
 		new LokiTransport({
 			host: process.env.LOKI_URL || 'http://localhost:3100',
-			labels: { job: 'micro-users' }, // Etiquetas para identificar los logs
+			labels: { job: 'micro-vehicles' }, // Etiquetas para identificar los logs
 			json: true,
 			level: 'debug', 
 		})
