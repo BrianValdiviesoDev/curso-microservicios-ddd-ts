@@ -9,9 +9,9 @@ export class EventUseCase {
 		await this.eventPort.send(event);
 	}
 
-	async processIncomingEvents(queue: string, name: string): Promise<void> {
+	async processUserCreated(queue: string, name: string): Promise<void> {
 		await this.eventPort.consume(queue, name, (event: Event) => {
-			logger.info(`Event received: ${event.content}`);
+			logger.info(`Event received: ${JSON.stringify(event.content)}`);
 		});
 	}
 }

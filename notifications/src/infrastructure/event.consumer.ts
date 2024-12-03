@@ -11,12 +11,6 @@ export const initializeRabbit = async () => {
 	const eventUseCase = new EventUseCase(rabbitAdapter);
 	await rabbitAdapter.connect();
 
-	// Publicar un evento
-	await eventUseCase.publishEvent({
-		name: 'user.created',
-		content: { id: '1', name: 'Test' },
-	});
-
 	// Configurar el consumidor
-	await eventUseCase.processIncomingEvents('user.queue', 'user.created');
+	await eventUseCase.processUserCreated('user.queue', 'user.created');
 };
