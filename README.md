@@ -62,6 +62,9 @@ Las piezas necesarias de infraestructura para este proyecto son:
 - __API-GATEWAY__: [http://localhost:5000](http://localhost:5000)
 ## Changelog
 
+### 1.7 - Add API Gateway
+Add Nginx as API Gateway
+
 ### 1.6 - Add event communication
 Add notifications service and communicate it with other services using RabbitMQ
 
