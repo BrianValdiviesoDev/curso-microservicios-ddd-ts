@@ -28,6 +28,12 @@ scrape_configs:
     metrics_path: "/api/metrics"  # Your application metrics endpoint
     static_configs:
       - targets: ["host.docker.internal:4001"]  # Replace with your application's address and port
+  
+  # Scrape application metrics
+  - job_name: "micro-notifications"
+    metrics_path: "/api/metrics"  # Your application metrics endpoint
+    static_configs:
+      - targets: ["host.docker.internal:4001"]  # Replace with your application's address and port
 
   # Scrape application metrics
   - job_name: "mongo"

@@ -10,8 +10,11 @@ export class EventUseCase {
 	}
 
 	async processUserCreated(queue: string, name: string): Promise<void> {
+		//Conectar con un puerto de email para enviar
+		//Conectar con un puerto de sms para enviar
 		await this.eventPort.consume(queue, name, (event: Event) => {
-			logger.info(`Event received: ${JSON.stringify(event.content)}`);
+			logger.info(`Event received: ${JSON.stringify(event)}`);
+			logger.info(`${event.content.name} bienvenido a la aplicación Family Planner`);
 		});
 	}
 }

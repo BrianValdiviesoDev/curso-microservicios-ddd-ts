@@ -31,6 +31,8 @@ services:
       - NODE_ENV=prod
       - DB_URI=mongodb://mongo:27017/users
       - LOKI_URL=http://loki:3100
+      - RABBITMQ_URL=amqp://brian:123456@rabbitmq:5672/
+      - EXCHANGE='curso-ddd'
     networks:
       - curso-ddd
     volumes:
@@ -55,7 +57,7 @@ services:
       - curso-ddd
     volumes:
       - type: volume
-        source: api_logs
+        source: notification_logs
         target: /app/logs
 
 networks:
@@ -65,3 +67,5 @@ networks:
 volumes:
   api_logs:
     name: api_logs 
+  notification_logs:
+    name: notification_logs 
