@@ -38,6 +38,26 @@ services:
         source: api_logs
         target: /app/logs
 
+  micro-notification:
+    build:
+      context: notifications/
+      dockerfile: Dockerfile
+    ports:
+      - "4002:3002"
+    environment:
+      - PORT=3002
+      - NODE_ENV=prod
+      - DB_URI=mongodb://mongo:27017/users
+      - LOKI_URL=http://loki:3100
+      - RABBITMQ_URL=amqp://brian:123456@rabbitmq:5672/
+      - EXCHANGE='curso-ddd'
+    networks:
+      - curso-ddd
+    volumes:
+      - type: volume
+        source: api_logs
+        target: /app/logs
+
 networks:
   curso-ddd:
     driver: bridge
