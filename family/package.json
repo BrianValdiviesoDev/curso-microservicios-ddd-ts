@@ -1,9 +1,5 @@
 {
-<<<<<<< HEAD
   "name": "family",
-=======
-  "name": "users",
->>>>>>> family
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
