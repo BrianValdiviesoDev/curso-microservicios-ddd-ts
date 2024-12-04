@@ -4,6 +4,7 @@ import { IUser } from '../domain/user.interface';
 import { IVehicle } from '../domain/vehicle.interface';
 import { CreateFamilyDTO } from './createFamily.dto';
 import { FamilyDto } from './family.dto';
+import { FamilyWithApiCompositionDto } from './familyWithApiComposition.dto';
 
 export class FamilyMapper {
 	// Mapeo de entrada a dominio
@@ -24,8 +25,17 @@ export class FamilyMapper {
 	}
 
 	// Mapeo de salida a infra
-	static toDto(family: Family, members?:IUser[], vehicles?:IVehicle[]): FamilyDto {
+	static toDto(family: Family): FamilyDto {
 		return new FamilyDto(
+			family.familyId,
+			family.name,
+			family.members,
+			family.vehicles
+		);
+	}
+
+	static fromApiComposition(family: Family, members?:IUser[], vehicles?:IVehicle[]): FamilyWithApiCompositionDto {
+		return new FamilyWithApiCompositionDto(
 			family.familyId,
 			family.name,
 			members,
