@@ -26,4 +26,12 @@ export class VehicleDbAdapter implements VehicleDbPort {
 		const result = await VehicleModel.create(vehicle);
 		return VehicleMapper.toDomain(result);
 	}
+
+	async findByLicensePlate(licensePlate: string): Promise<Vehicle> {
+		const result = await VehicleModel.findOne({ licensePlate }).populate('insurances');
+		if (!result) {
+			throw new NotFoundError('Vehicle not found');
+		}
+		return VehicleMapper.fromInfra(result);
+	}
 }

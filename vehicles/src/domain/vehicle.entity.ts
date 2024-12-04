@@ -21,7 +21,8 @@ export class Vehicle implements IVehicle {
 		kilometers: number,
 		insurances?: Insurance[],
 		itv?: string[] | undefined,
-		checkups?: string[] | undefined
+		checkups?: string[] | undefined,
+		id?: string
 	) {
 		this.licensePlate = licensePlate;
 		this.insurances = insurances;
@@ -30,7 +31,7 @@ export class Vehicle implements IVehicle {
 		this.kilometers = kilometers;
 		this.itv = itv;
 		this.checkups = checkups;
-		this.vehicleId = this.generateVehicleId();
+		this.vehicleId = id || this.generateVehicleId();
 	}
 
     
