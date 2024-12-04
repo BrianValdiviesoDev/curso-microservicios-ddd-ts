@@ -93,6 +93,8 @@ services:
       - LOKI_URL=http://loki:3100
       - RABBITMQ_URL=amqp://guess:guess@rabbitmq:5672/
       - EXCHANGE='curso-ddd'
+      - MICRO_USERS_URL=http://micro-users:3001
+      - MICRO_VEHICLES_URL=http://micro-vehicles:3004
     networks:
       - curso-ddd
     volumes:

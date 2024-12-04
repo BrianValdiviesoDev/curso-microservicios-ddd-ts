@@ -62,6 +62,16 @@ Las piezas necesarias de infraestructura para este proyecto son:
 - __API-GATEWAY__: [http://localhost:5000](http://localhost:5000)
 ## Changelog
 
+
+### 1.10 - Migrate family scope
+Migrate family from monolito to family service using blue-green strategy with Nginx
+
+### 1.9 - API Composition
+Add api composition pattern in family service with Family entity and members and vehicles.
+
+### 1.8 - Aggregate pattern
+Add aggregate pattern in vehciles service with Vehicle entity and insurances
+
 ### 1.7 - Add API Gateway
 Add Nginx as API Gateway
 
