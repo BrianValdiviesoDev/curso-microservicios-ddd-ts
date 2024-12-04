@@ -4,13 +4,19 @@ import { IVehicle } from '../domain/vehicle.interface';
 import { VehicleDbPort } from '../domain/vehicleDb.port';
 import VehicleModel from './vehicle.schema';
 import { NotFoundError } from '../errors/errorfactory';
+import InsuranceModel from './insurance.schema';
 
 export class VehicleDbAdapter implements VehicleDbPort {
 	async addInsurance(vehicleId: string, insuranceId: string): Promise<Vehicle> {
+		const insurance = await InsuranceModel.findOne({ insuranceId });
+		if (!insurance) {
+			throw new NotFoundError('Insurance not found');
+		}
 		const result = await VehicleModel.findOneAndUpdate({ vehicleId }, {
-			$push:{insurances: insuranceId}
+			$push:{insurances: insurance._id}
 		},
 		{ new: true });
+		
 		if (!result) {
 			throw new NotFoundError('Vehicle not found');
 		}

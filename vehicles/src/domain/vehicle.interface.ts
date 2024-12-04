@@ -1,3 +1,4 @@
+import { IInsurance } from './insurance.interface';
 
 export enum VehicleType{
     CAR = 'CAR',
@@ -10,7 +11,7 @@ export interface IVehicle {
     brand: string;
     model: string;
     kilometers: number;
-    insurances?: string[];
+    insurances?: IInsurance[];
     itv?: string[];
     checkups?: string[];
 }

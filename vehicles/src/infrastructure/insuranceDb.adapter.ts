@@ -7,6 +7,6 @@ import InsuranceModel from './insurance.schema';
 export class InsuranceDbAdapter implements InsuranceDbPort {
 	async create(insurance: IInsurance): Promise<Insurance> {
 		const result = await InsuranceModel.create(insurance);
-		return InsuranceMapper.toDomain(result);
+		return InsuranceMapper.fromInfra(result);
 	}
 }

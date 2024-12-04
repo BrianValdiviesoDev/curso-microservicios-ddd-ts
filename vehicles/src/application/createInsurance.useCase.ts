@@ -14,7 +14,7 @@ export class CreateInsuranceUseCase {
 	public execute = async (vehicleId: string, dto:CreateInsuranceDTO): Promise<InsuranceDto> => {
 		const insurance = InsuranceMapper.toDomain(dto);
 		const insuranceSaved = await this.insuranceDb.create(insurance);
-        
+
 		const addInsuranceToVehicle = new AddInsuranceToVehicleUseCase(this.vehicleDb);
 		await addInsuranceToVehicle.execute(vehicleId, insuranceSaved.insuranceId);
 		

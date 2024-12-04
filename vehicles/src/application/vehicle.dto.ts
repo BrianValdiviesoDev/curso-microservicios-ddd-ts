@@ -1,3 +1,4 @@
+import { Insurance } from '../domain/insurance.entity';
 
 export class VehicleDto {
 	constructor(
@@ -6,7 +7,7 @@ export class VehicleDto {
     public model: string,
     public licensePlate: string,
     public kilometers: number,
-    public insurances?: string[],
+    public insurances?: Insurance[],
     public itv?: string[],
     public checkups?: string[],
 	) {}

@@ -1,4 +1,5 @@
 
+import { Insurance } from './insurance.entity';
 import { IVehicle } from './vehicle.interface';
 
 
@@ -6,7 +7,7 @@ import { IVehicle } from './vehicle.interface';
 export class Vehicle implements IVehicle {
 	public readonly vehicleId: string;
 	public licensePlate: string;
-	public insurances?: string[];
+	public insurances?: Insurance[];
 	public brand: string;
 	public model: string;
 	public kilometers: number;
@@ -18,7 +19,7 @@ export class Vehicle implements IVehicle {
 		brand: string,
 		model: string,
 		kilometers: number,
-		insurances?: string[],
+		insurances?: Insurance[],
 		itv?: string[] | undefined,
 		checkups?: string[] | undefined
 	) {
