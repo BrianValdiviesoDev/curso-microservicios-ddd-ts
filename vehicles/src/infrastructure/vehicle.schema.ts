@@ -1,6 +1,5 @@
-import { Model, Schema, model } from 'mongoose';
+import { Model, Schema, Types, model } from 'mongoose';
 import { IVehicle } from '../domain/vehicle.interface';
-
 export interface VehicleDocument extends IVehicle, Document {}
   
 const VehicleSchema = new Schema<VehicleDocument>(
@@ -28,8 +27,9 @@ const VehicleSchema = new Schema<VehicleDocument>(
 		},
 		insurances: [
 			{
-				type: String,
-			},
+				type: Types.ObjectId,
+				ref: 'Insurance',
+			}
 		],
 		itv:[
 			{

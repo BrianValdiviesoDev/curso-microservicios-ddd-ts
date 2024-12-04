@@ -1,4 +1,5 @@
 
+import { Insurance } from './insurance.entity';
 import { IVehicle } from './vehicle.interface';
 
 
@@ -6,7 +7,7 @@ import { IVehicle } from './vehicle.interface';
 export class Vehicle implements IVehicle {
 	public readonly vehicleId: string;
 	public licensePlate: string;
-	public insurances?: string[];
+	public insurances?: Insurance[];
 	public brand: string;
 	public model: string;
 	public kilometers: number;
@@ -18,9 +19,10 @@ export class Vehicle implements IVehicle {
 		brand: string,
 		model: string,
 		kilometers: number,
-		insurances?: string[],
+		insurances?: Insurance[],
 		itv?: string[] | undefined,
-		checkups?: string[] | undefined
+		checkups?: string[] | undefined,
+		id?: string
 	) {
 		this.licensePlate = licensePlate;
 		this.insurances = insurances;
@@ -29,7 +31,7 @@ export class Vehicle implements IVehicle {
 		this.kilometers = kilometers;
 		this.itv = itv;
 		this.checkups = checkups;
-		this.vehicleId = this.generateVehicleId();
+		this.vehicleId = id || this.generateVehicleId();
 	}
 
     

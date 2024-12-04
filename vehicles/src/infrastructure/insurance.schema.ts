@@ -3,7 +3,7 @@ import { IInsurance } from '../domain/insurance.interface';
 
 export interface InsuranceDocument extends IInsurance, Document {}
   
-const InsuranceSchema = new Schema<InsuranceDocument>(
+export const InsuranceSchema = new Schema<InsuranceDocument>(
 	{
 		insuranceId: {
 			type: String,

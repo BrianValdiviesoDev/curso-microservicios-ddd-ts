@@ -21,4 +21,14 @@ export class InsuranceMapper {
 			insurance.company
 		);
 	}
+
+	static fromInfra(dto: InsuranceDto): Insurance {
+		return new Insurance(
+			dto.startDate,
+			dto.endDate,
+			dto.amount,
+			dto.company,
+			dto.insuranceId,
+		);
+	}
 }
