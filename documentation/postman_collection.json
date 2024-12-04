@@ -1,0 +1,614 @@
+{
+	"info": {
+		"_postman_id": "8dbf0479-5896-4ae5-9727-278a433d05fc",
+		"name": "curso-ddd",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "37698639"
+	},
+	"item": [
+		{
+			"name": "users",
+			"item": [
+				{
+					"name": "createUser",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\":\"Brian\",\r\n    \"email\": \"Brian@test.com\",\r\n    \"rol\":[\"SUPERADMIN\"],\r\n    \"password\":\"asdvasdv\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url-users}}/",
+							"host": [
+								"{{url-users}}"
+							],
+							"path": [
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "health",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url-users}}/monit/health",
+							"host": [
+								"{{url-users}}"
+							],
+							"path": [
+								"monit",
+								"health"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "findUser",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url-users}}/:id",
+							"host": [
+								"{{url-users}}"
+							],
+							"path": [
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "1efadb05-240c-6300-9225-48ba7408b8a2"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "mocks",
+			"item": [
+				{
+					"name": "monit",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url-mocks}}/monit/health",
+							"host": [
+								"{{url-mocks}}"
+							],
+							"path": [
+								"monit",
+								"health"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "usersList",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url-mocks}}/users",
+							"host": [
+								"{{url-mocks}}"
+							],
+							"path": [
+								"users"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "monolito",
+			"item": [
+				{
+					"name": "create family",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"name\": \"test\",\r\n  \"members\": [\"64b5f4c08462bc6a4f0d9e9e\"]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url-monolito}}/families/",
+							"host": [
+								"{{url-monolito}}"
+							],
+							"path": [
+								"families",
+								""
+							]
+						},
+						"description": "Generated from cURL: curl -X POST http://localhost:3000/families/ \\\r\n-H \"Content-Type: application/json\" \\\r\n-d '{\r\n  \"name\": \"test\",\r\n  \"members\": [\"64b5f4c08462bc6a4f0d9e9e\"]\r\n}'\r\n"
+					},
+					"response": []
+				},
+				{
+					"name": "add member",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"memberId\":\"674302b58f78c73759318acc\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url-monolito}}/families/:familyId/member",
+							"host": [
+								"{{url-monolito}}"
+							],
+							"path": [
+								"families",
+								":familyId",
+								"member"
+							],
+							"variable": [
+								{
+									"key": "familyId",
+									"value": "67434dd9cef7a4c74f33508f"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get family",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url-monolito}}/families/:familyId",
+							"host": [
+								"{{url-monolito}}"
+							],
+							"path": [
+								"families",
+								":familyId"
+							],
+							"variable": [
+								{
+									"key": "familyId",
+									"value": "67434dd9cef7a4c74f33508f"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "list families",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url-monolito}}/families",
+							"host": [
+								"{{url-monolito}}"
+							],
+							"path": [
+								"families"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "createUser",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\":\"201\",\r\n    \"email\":\"test-bypass7@test.com\",\r\n    \"birth_date\": \"2000-01-01\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url-monolito}}/",
+							"host": [
+								"{{url-monolito}}"
+							],
+							"path": [
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "listUsers",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url-monolito}}/users/",
+							"host": [
+								"{{url-monolito}}"
+							],
+							"path": [
+								"users",
+								""
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "vehicles",
+			"item": [
+				{
+					"name": "create",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n   \"licensePlate\":\"0000abc\",\r\n   \"brand\":\"test\",\r\n   \"model\":\"test\",\r\n   \"kilometers\":100 \r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url-vehicles}}/",
+							"host": [
+								"{{url-vehicles}}"
+							],
+							"path": [
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "create insurance",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"startDate\":\"2024-01-01\",\r\n    \"endDate\":\"2026-01-01\",\r\n    \"amount\":5,\r\n    \"company\":\"testing\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url-vehicles}}/insurance/0000abc",
+							"host": [
+								"{{url-vehicles}}"
+							],
+							"path": [
+								"insurance",
+								"0000abc"
+							],
+							"query": [
+								{
+									"key": "",
+									"value": null,
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "find vehicle",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url-vehicles}}/licensePlate/:licensePlate",
+							"host": [
+								"{{url-vehicles}}"
+							],
+							"path": [
+								"licensePlate",
+								":licensePlate"
+							],
+							"variable": [
+								{
+									"key": "licensePlate",
+									"value": "0000abc"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "api-gateway",
+			"item": [
+				{
+					"name": "list families",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url-monolito}}/families",
+							"host": [
+								"{{url-monolito}}"
+							],
+							"path": [
+								"families"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "create family",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"name\": \"test\",\r\n  \"members\": [\"64b5f4c08462bc6a4f0d9e9e\"]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{api-gateway}}/families/",
+							"host": [
+								"{{api-gateway}}"
+							],
+							"path": [
+								"families",
+								""
+							]
+						},
+						"description": "Generated from cURL: curl -X POST http://localhost:3000/families/ \\\r\n-H \"Content-Type: application/json\" \\\r\n-d '{\r\n  \"name\": \"test\",\r\n  \"members\": [\"64b5f4c08462bc6a4f0d9e9e\"]\r\n}'\r\n"
+					},
+					"response": []
+				},
+				{
+					"name": "get family",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url-monolito}}/families/:familyId",
+							"host": [
+								"{{url-monolito}}"
+							],
+							"path": [
+								"families",
+								":familyId"
+							],
+							"variable": [
+								{
+									"key": "familyId",
+									"value": "67434dd9cef7a4c74f33508f"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "add member",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"memberId\":\"674302b58f78c73759318acc\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url-monolito}}/families/:familyId/member",
+							"host": [
+								"{{url-monolito}}"
+							],
+							"path": [
+								"families",
+								":familyId",
+								"member"
+							],
+							"variable": [
+								{
+									"key": "familyId",
+									"value": "67434dd9cef7a4c74f33508f"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "createUser",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\":5,\r\n    \"email\": \"test-typdseedsf@test.com\",\r\n    \"rol\":[\"SUPERADMIN\"],\r\n    \"password\":\"asdvasdv\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{api-gateway}}/users/",
+							"host": [
+								"{{api-gateway}}"
+							],
+							"path": [
+								"users",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "list users",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{api-gateway}}/users/",
+							"host": [
+								"{{api-gateway}}"
+							],
+							"path": [
+								"users",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "create vehicle",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n   \"licensePlate\":\"teststst\",\r\n   \"brand\":\"test\",\r\n   \"model\":\"test\",\r\n   \"kilometers\":100 \r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{api-gateway}}/vehicles/",
+							"host": [
+								"{{api-gateway}}"
+							],
+							"path": [
+								"vehicles",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "create insurance",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"startDate\":\"2024-01-01\",\r\n    \"endDate\":\"2026-01-01\",\r\n    \"amount\":5,\r\n    \"company\":\"testing\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{api-gateway}}/vehicles/insurance/test",
+							"host": [
+								"{{api-gateway}}"
+							],
+							"path": [
+								"vehicles",
+								"insurance",
+								"test"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "list vehicles",
+					"request": {
+						"method": "GET",
+						"header": []
+					},
+					"response": []
+				},
+				{
+					"name": "find vehicle",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{api-gateway}}/vehicles/licensePlate/:licensePlate",
+							"host": [
+								"{{api-gateway}}"
+							],
+							"path": [
+								"vehicles",
+								"licensePlate",
+								":licensePlate"
+							],
+							"variable": [
+								{
+									"key": "licensePlate",
+									"value": "0000abc"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
