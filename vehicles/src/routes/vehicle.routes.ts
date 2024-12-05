@@ -1,25 +1,14 @@
 import { NextFunction, Request, Response, Router } from 'express';
 import { CreateVehicleDTO } from '../application/createVehicle.dto';
 import { VehicleController } from '../infrastructure/vehicle.controller';
-import { CommandBus } from '../application/buses/command.bus';
-import { CreateVehicleHandler } from '../application/queries/createVehicle.handler';
-import { VehicleDbAdapter } from '../infrastructure/vehicleDb.adapter';
-import { CreateVehicleCommand } from '../application/commands/createVehicle.command';
-import { QueryBus } from '../application/buses/query.bus';
-import { GetVehicleQuery } from '../application/queries/getVehicle.query';
-import { GetVehicleHandler } from '../application/queries/getVehicle.handler';
+import logger from '../framework/logger';
 
 const router = Router();
-const commandBus = new CommandBus();
-commandBus.register(CreateVehicleCommand.name, new CreateVehicleHandler(new VehicleDbAdapter()));
 
+const vehicleController = new VehicleController();
 
-const queryBus = new QueryBus();
-queryBus.register(GetVehicleQuery.name, new GetVehicleHandler(new VehicleDbAdapter()));
-
-const vehicleController = new VehicleController(commandBus);
-
-router.post('/', async (req:Request, res:Response, next:NextFunction) => {
+router.post('/', async (req: Request, res: Response, next: NextFunction) => {
+	logger.info('[VehicleRouter] - POST /');
 	try {
 		const createVehicleDto = new CreateVehicleDTO(
 			req.body.licensePlate,
