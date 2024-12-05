@@ -1,8 +1,8 @@
-import { UserEvent } from '../domain/event.entity';
+import { EventPort } from '../domain/event.port';
+import { Event } from '../domain/event.entity';
 import amqplib, { Channel, Connection } from 'amqplib';
 import logger from '../framework/logger';
-import { EventPort } from '../domain/userEvent.port';
-import { UserEventMapper } from './event.mapper';
+import { VehicleEvent } from '../domain/vehicleEvent.entity';
 
 export class EventRabbitAdapter implements EventPort{
 	private rabbitmqUrl: string;
@@ -10,17 +10,13 @@ export class EventRabbitAdapter implements EventPort{
 	private channel!: Channel;
 	private exchange: string;
     
-	constructor() {
+	constructor(exchange: string) {
 		if (!process.env.RABBITMQ_URL) {
 			logger.error('RABBITMQ_URL is not set as environment variable');
 			throw new Error('RABBITMQ_URL is not set as environment variable');
 		}
-		if (!process.env.EXCHANGE) {
-			logger.error('EXCHANGE is not set as environment variable');
-			throw new Error('EXCHANGE is not set as environment variable');
-		}
 		this.rabbitmqUrl = process.env.RABBITMQ_URL;
-		this.exchange = process.env.EXCHANGE;
+		this.exchange = exchange;
 	}
     
 	async connect(): Promise<void> {
@@ -35,20 +31,44 @@ export class EventRabbitAdapter implements EventPort{
 		}
 	}
     
-	async send(event: UserEvent): Promise<void> {
+	async send(event: VehicleEvent): Promise<void> {
 		if (!this.channel) {
 			logger.error('RabbitMQ connection is not established. Call connect() first.');
 			throw new Error('RabbitMQ connection is not established. Call connect() first.');
 		}
       
 		try {
-			const mappedEvent = UserEventMapper.toJson(event);
-			const messageBuffer = Buffer.from(JSON.stringify(mappedEvent));
+			const messageBuffer = Buffer.from(JSON.stringify(event));
 			this.channel.publish(this.exchange, event.eventName, messageBuffer);
 			logger.info(`Message sent to exchange '${this.exchange}' with routingKey '${event.eventName}':`, JSON.stringify(event));
 		} catch (error) {
 			logger.error('Error sending message:', error);
 			throw error;
 		}
-	}    
+	}
+
+	async consume(queue: string, routingKey: string, onMessage: (event: Event) => void): Promise<void> {
+		if (!this.channel) {
+			logger.error('RabbitMQ connection is not established. Call connect() first.');
+		  	throw new Error('RabbitMQ connection is not established. Call connect() first.');
+		}
+		await this.channel.assertQueue(queue, { durable: true });
+		await this.channel.bindQueue(queue, this.exchange, routingKey);
+	
+		this.channel.consume(queue, (msg) => {
+		  	if (msg) {
+				try {
+					const json = JSON.parse(msg.content.toString());
+					const event = new Event(json.name, JSON.parse(json.content));
+					onMessage(event);
+					this.channel.ack(msg);
+				} catch (error) {
+					logger.error('Error processing message:', error);
+					this.channel.nack(msg, false, false);
+				}
+		  	}
+		});
+		logger.info(`Consumer setup for queue '${queue}' with routingKey '${routingKey}'`);
+	}
+    
 }

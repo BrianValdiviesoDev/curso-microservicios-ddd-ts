@@ -22,7 +22,7 @@ export class EventRabbitAdapter implements EventPort{
 		try {
 			this.connection = await amqplib.connect(this.rabbitmqUrl);
 			this.channel = await this.connection.createChannel();
-			await this.channel.assertExchange(this.exchange, 'direct', { durable: true });
+			await this.channel.assertExchange(this.exchange, 'topic', { durable: true });
 			logger.info('RabbitMQ connected!');
 		} catch (error) {
 			logger.error('Error connecting to RabbitMQ:', error);

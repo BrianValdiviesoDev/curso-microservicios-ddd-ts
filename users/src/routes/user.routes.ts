@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response, Router } from 'express';
-import { createUser, deleteUser, findUser, listUsers, updateUser } from '../infrastructure/user.controller';
+import { createUser, deleteUser, findUser, listUsers, refreshData, updateUser } from '../infrastructure/user.controller';
 import { CreateUserDTO } from '../application/createUser.dto';
 
 const router = Router();
@@ -39,6 +39,17 @@ router.get('/', async (req:Request, res:Response, next:NextFunction) => {
 	}
 });
 
+router.put('/refreshData', async (req:Request, res:Response, next:NextFunction) => {
+	try {
+		const response = await refreshData();
+		res.status(response.statusCode).send(response.data);
+		return;
+	} catch (e) {
+		next(e);
+	}
+});
+
+
 router.put('/:id', async (req:Request, res:Response, next:NextFunction) => {
 	try {
 		const createUserDTO = new CreateUserDTO(
@@ -66,13 +77,5 @@ router.delete('/:id', async (req:Request, res:Response, next:NextFunction) => {
 });
 
 
-router.put('/refreshData', async (req:Request, res:Response, next:NextFunction) => {
-	try {
-		//TODO: enviar un mensaje de actualización de datos de cada usuario
-		return;
-	} catch (e) {
-		next(e);
-	}
-});
 
 export default router;

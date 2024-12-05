@@ -7,6 +7,7 @@ import { DeleteUserUseCase } from '../application/deleteUse.useCase';
 import { ListUserUseCase } from '../application/listUsers.useCase';
 import { UserHttpResponseDto } from '../infrastructure/user.dto';
 import { EventRabbitAdapter } from './event.adapter';
+import { RefreshDataUserUseCase } from '../application/refreshData.userCase';
 
 const rabbitAdapter = new EventRabbitAdapter();
 rabbitAdapter.connect();
@@ -39,4 +40,10 @@ export const listUsers = async () => {
 	const userUseCase = new ListUserUseCase(new UserDbAdapter());
 	const list = await userUseCase.execute();
 	return new UserHttpResponseDto(200, list);
+};
+
+export const refreshData = async () => {
+	const userUseCase = new RefreshDataUserUseCase(new UserDbAdapter(), rabbitAdapter);
+	await userUseCase.execute();
+	return new UserHttpResponseDto(200);
 };

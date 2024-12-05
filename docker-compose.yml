@@ -31,8 +31,10 @@ services:
       - NODE_ENV=prod
       - DB_URI=mongodb://mongo:27017/users
       - LOKI_URL=http://loki:3100
-      - RABBITMQ_URL=amqp://guess:guess@rabbitmq:5672/
+      - RABBITMQ_URL=amqp://admin:admin@rabbitmq:5672/
       - EXCHANGE='curso-ddd'
+      - USER_REFRESH_DATA_ROUTING_KEY=user.refreshData
+      - USER_CREATED_ROUTING_KEY=user.created
     networks:
       - curso-ddd
     volumes:
@@ -51,8 +53,10 @@ services:
       - NODE_ENV=prod
       - DB_URI=mongodb://mongo:27017/notifications
       - LOKI_URL=http://loki:3100
-      - RABBITMQ_URL=amqp://guess:guess@rabbitmq:5672/
+      - RABBITMQ_URL=amqp://admin:admin@rabbitmq:5672/
       - EXCHANGE='curso-ddd'
+      - USER_REFRESH_DATA_ROUTING_KEY=user.refreshData
+      - USER_CREATED_ROUTING_KEY=user.created
     networks:
       - curso-ddd
     volumes:
@@ -71,8 +75,10 @@ services:
       - NODE_ENV=prod
       - DB_URI=mongodb://mongo:27017/vehicles
       - LOKI_URL=http://loki:3100
-      - RABBITMQ_URL=amqp://guess:guess@rabbitmq:5672/
+      - RABBITMQ_URL=amqp://admin:admin@rabbitmq:5672/
       - EXCHANGE='curso-ddd'
+      - USER_REFRESH_DATA_ROUTING_KEY=user.refreshData
+      - USER_CREATED_ROUTING_KEY=user.created
     networks:
       - curso-ddd
     volumes:
@@ -91,7 +97,7 @@ services:
       - NODE_ENV=prod
       - DB_URI=mongodb://mongo:27017/families
       - LOKI_URL=http://loki:3100
-      - RABBITMQ_URL=amqp://guess:guess@rabbitmq:5672/
+      - RABBITMQ_URL=amqp://admin:admin@rabbitmq:5672/
       - EXCHANGE='curso-ddd'
       - MICRO_USERS_URL=http://micro-users:3001
       - MICRO_VEHICLES_URL=http://micro-vehicles:3004
