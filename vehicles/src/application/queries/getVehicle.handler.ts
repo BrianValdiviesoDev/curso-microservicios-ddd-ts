@@ -1,6 +1,6 @@
-import { VehicleDbPort } from '../../domain/vehicleDb.port';
 import { GetVehicleQuery } from './getVehicle.query';
 import { Vehicle } from '../../domain/vehicle.entity';
+import { VehicleDbPort } from '../../domain/vehicleDb.port';
 
 export class GetVehicleHandler {
 	constructor(private readonly vehicleDb: VehicleDbPort) {}

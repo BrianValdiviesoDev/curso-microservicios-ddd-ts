@@ -1,38 +1,54 @@
-import mongoose from 'mongoose';
+import mongoose, { Connection } from 'mongoose';
 import logger from './logger';
 import { Logger } from 'winston';
 
 export class MongoService {
-	private uri: string;
+	private commandUri: string;
+	private queryUri:string;
 	private log:Logger = logger;
-
+	private queryConnection: Connection | null = null;
+	private commandConnection: Connection | null = null;
+	
 	constructor() {
-		if (!process.env.DB_URI) {
-			throw new Error('DB_URI is not set as environment variable');
+		if (!process.env.DB_COMMAND_URI) {
+			throw new Error('DB_COMMAND_URI is not set as environment variable');
 		}
-		this.uri = process.env.DB_URI;
+		this.commandUri = process.env.DB_COMMAND_URI;
+
+		if (!process.env.DB_QUERY_URI) {
+			throw new Error('DB_QUERY_URI is not set as environment variable');
+		}
+		this.queryUri = process.env.DB_QUERY_URI;
 	}
 
-	connect() {
+	async connectToCommandDb() {
 		mongoose.set('debug', true);
-		mongoose
-			.connect(this.uri)
-			.then(
-				() => {
-					this.log.info('MongoDB connected!');
-				},
-				(err) => {
-					this.log.error(`Error connecting with mongo: ${err}`);
-				}
-			)
-			.catch((err) => {
-				this.log.error(`Error connecting with mongo: ${err}`);
-			});
+		if (!this.commandConnection) {
+			try {
+				const connection = await mongoose.createConnection(this.commandUri);
+				this.commandConnection = connection;
+				this.log.info('Connected to Command Database!');
+			} catch (err) {
+				this.log.error(`Error connecting to Command Database: ${err}`);
+				throw err;
+			}
+		}
+		return this.commandConnection;
+	}
 
-		mongoose.connection.on('error', (error) => {
-			mongoose.disconnect();
-			this.log.error(`Error in MongoDb connection: ${error}`);
-		});
+	async connectToQueryDb() {
+		mongoose.set('debug', true);
+		if (!this.queryConnection) {
+			try {
+				const connection = await mongoose.createConnection(this.queryUri);
+				this.queryConnection = connection;
+				this.log.info('Connected to Query Database!');
+			} catch (err) {
+				this.log.error(`Error connecting to Query Database: ${err}`);
+				throw err;
+			}
+		}
+		return this.queryConnection;
 	}
 
 	close = () => {

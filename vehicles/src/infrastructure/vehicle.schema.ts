@@ -1,4 +1,4 @@
-import { Model, Schema, Types, model } from 'mongoose';
+import { Connection, Model, Schema, Types } from 'mongoose';
 import { IVehicle } from '../domain/vehicle.interface';
 export interface VehicleDocument extends IVehicle, Document {}
   
@@ -47,6 +47,6 @@ const VehicleSchema = new Schema<VehicleDocument>(
 		timestamps: true,
 	}
 );
-
-const VehicleModel: Model<VehicleDocument & Document> = model('Vehicle', VehicleSchema);
-export default VehicleModel;
+export const createVehicleModel = (connection: Connection): Model<VehicleDocument> => {
+	return connection.model<VehicleDocument>('Vehicle', VehicleSchema);
+};

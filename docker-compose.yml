@@ -69,7 +69,8 @@ services:
     environment:
       - PORT=3004
       - NODE_ENV=prod
-      - DB_URI=mongodb://mongo:27017/vehicles
+      - DB_COMMAND_URI=mongodb://localhost:27017/vehicles-write
+      - DB_QUERY_URI=mongodb://localhost:27017/vehicles-read
       - LOKI_URL=http://loki:3100
       - RABBITMQ_URL=amqp://guess:guess@rabbitmq:5672/
       - EXCHANGE='curso-ddd'
