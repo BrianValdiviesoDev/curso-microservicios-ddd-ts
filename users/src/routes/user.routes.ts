@@ -65,4 +65,14 @@ router.delete('/:id', async (req:Request, res:Response, next:NextFunction) => {
 	}
 });
 
+
+router.put('/refreshData', async (req:Request, res:Response, next:NextFunction) => {
+	try {
+		//TODO: enviar un mensaje de actualización de datos de cada usuario
+		return;
+	} catch (e) {
+		next(e);
+	}
+});
+
 export default router;

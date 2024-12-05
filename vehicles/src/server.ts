@@ -20,4 +20,6 @@ app.use('/insurance', InsuranceRouter);
 
 app.use(ErrorHandler.handle);
 
+//TODO: consumir eventos de refreshData y actualizar información de la DGT
+
 export { app };

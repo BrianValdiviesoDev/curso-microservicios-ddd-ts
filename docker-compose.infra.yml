@@ -74,8 +74,8 @@ services:
         - ./logs/rabbitmq:/var/log/rabbitmq
         - ./rabbitmq.conf:/etc/rabbitmq/rabbitmq.conf
     environment:
-        RABBITMQ_DEFAULT_USER: guess
-        RABBITMQ_DEFAULT_PASS: guess
+        RABBITMQ_DEFAULT_USER: admin
+        RABBITMQ_DEFAULT_PASS: admin
     networks:
       - curso-ddd
 
