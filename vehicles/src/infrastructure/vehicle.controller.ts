@@ -1,15 +1,31 @@
+import { CreateVehicleHandler } from '../application/queries/createVehicle.handler';
 import { CreateVehicleDTO } from '../application/createVehicle.dto';
-import { CreateVehicleUseCase } from '../application/createVehicle.useCase';
-import { FindVehicleByLicensePlateUseCase } from '../application/findVehicleByLicensePlate.useCase';
-import { VehicleDto } from '../application/vehicle.dto';
 import { VehicleDbAdapter } from './vehicleDb.adapter';
+import { CommandBus } from '../application/buses/command.bus';
+import { Vehicle } from '../domain/vehicle.entity';
+import { GetVehicleHandler } from '../application/queries/getVehicle.handler';
+import { GetVehicleQuery } from '../application/queries/getVehicle.query';
+import { NotFoundError } from '../errors/errorfactory';
+import { CreateVehicleCommand } from '../application/commands/createVehicle.command';
 
-export const createVehicle = async (vehicle: CreateVehicleDTO): Promise<VehicleDto> => {
-	const vehicleUseCase = new CreateVehicleUseCase(new VehicleDbAdapter());
-	return await vehicleUseCase.execute(vehicle);
-};
+export class VehicleController {
+	constructor(
+		private readonly commandBus: CommandBus,
+	) { }
 
-export const findByLicensePlate = async (licensePlate: string): Promise<VehicleDto> => {
-	const vehicleUseCase = new FindVehicleByLicensePlateUseCase(new VehicleDbAdapter());
-	return await vehicleUseCase.execute(licensePlate);
-};
+	async createVehicle(vehicle: CreateVehicleDTO): Promise<void> {
+		const handler = new CreateVehicleHandler(new VehicleDbAdapter());
+		await handler.execute(new CreateVehicleCommand(vehicle.licensePlate, vehicle.brand, vehicle.model, vehicle.kilometers));
+	}
+
+	async getVehicle(licensePlate: string): Promise<Vehicle> {
+		const handler = new GetVehicleHandler(new VehicleDbAdapter());
+		const vehicle = await handler.execute(new GetVehicleQuery(licensePlate));
+		if (!vehicle) {
+			throw new NotFoundError('Vehicle not found');
+		}
+
+		return vehicle;
+	}
+}
+
